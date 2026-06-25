@@ -1,9 +1,7 @@
 const { log } = require("console");
-const http = require("http");
 const fs = require("fs");
-const { buffer } = require("stream/consumers");
-
-let server = http.createServer((req, res) => {
+const { buffer, json } = require("stream/consumers");
+let useRequestHandler = (req, res) => {
   console.log(req.url, req.method);
 
   if (req.url === "/") {
@@ -34,14 +32,21 @@ let server = http.createServer((req, res) => {
     req.on("end", () => {
       const fullbody = Buffer.concat(body).toString();
       console.log(fullbody);
+
+      const params = new URLSearchParams(fullbody);
+      //   const bodyObj = {};
+      //   for (const [key, val] of params.entries()) {
+      //     bodyObj[key] = val;
+      //   }
+
+      const bodyObj = Object.fromEntries(params);
+      console.log(bodyObj);
+      fs.writeFileSync("user.txt", JSON.stringify(bodyObj));
     });
     res.statusCode = 302;
     res.setHeader("location", "/");
     return res.end();
   }
-});
-let PORT = 3000;
+};
 
-server.listen(PORT, () => {
-  console.log(`server is running http://localhost:3000/`);
-});
+module.exports = useRequestHandler;
