@@ -45,6 +45,9 @@ const server = http.createServer((req, res) => {
     req.url.toLocaleLowerCase() === "/submit" &&
     req.method === "POST"
   ) {
+    req.on("data", (chunck) => {
+      console.log(chunck);
+    });
     fs.writeFileSync("user.txt", "yash sharma");
     res.statusCode = 302;
     res.setHeader("Location", "/submitted");
