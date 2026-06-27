@@ -1,4 +1,4 @@
-const { log } = require("console");
+const { log, error } = require("console");
 const fs = require("fs");
 const { buffer, json } = require("stream/consumers");
 let useRequestHandler = (req, res) => {
@@ -41,11 +41,17 @@ let useRequestHandler = (req, res) => {
 
       const bodyObj = Object.fromEntries(params);
       console.log(bodyObj);
-      fs.writeFileSync("user.txt", JSON.stringify(bodyObj));
+      //poor method
+      // fs.writeFileSync("user.txt", JSON.stringify(bodyObj));
+
+      // Good method
+      fs.writeFile("user.txt", JSON.stringify(bodyObj), (error) => {
+        console.log("Data written successfully");
+      });
+      res.statusCode = 302;
+      res.setHeader("location", "/");
+      return res.end();
     });
-    res.statusCode = 302;
-    res.setHeader("location", "/");
-    return res.end();
   }
 };
 
