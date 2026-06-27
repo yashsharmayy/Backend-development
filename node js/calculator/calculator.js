@@ -1,10 +1,12 @@
-const fs = require("fs");
 const sumRequestHanler = require("./sum");
 let useRequestHandler = (req, res) => {
   console.log(req.url, req.method);
   if (req.url === "/") {
     res.setHeader("Content-Type", "text/html");
     res.write(`
+      <!DOCTYPE html>
+<html>
+
             <head>
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,7 +22,9 @@ let useRequestHandler = (req, res) => {
     return res.end();
   } else if (req.url === "/calculator") {
     res.setHeader("Content-Type", "text/html");
-    res.write(`
+    res.write(`<!DOCTYPE html>
+<html>
+
             <head>
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -36,11 +40,13 @@ let useRequestHandler = (req, res) => {
             </html>
             `);
     return res.end();
-  } else if (req.url === "/calculate-result") {
+  } else if (req.url === "/calculate-result" && req.method === "POST") {
     return sumRequestHanler(req, res);
   } else {
     res.setHeader("Content-Type", "text/html");
-    res.write(`
+    res.write(`<!DOCTYPE html>
+<html>
+
             <head>
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
