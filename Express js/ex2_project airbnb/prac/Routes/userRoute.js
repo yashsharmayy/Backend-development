@@ -1,12 +1,10 @@
 const express = require("express");
+const path = require("path");
 
 //local module
 const userRouter = express.Router();
 
 userRouter.get("/", (req, res, next) => {
-  console.log("middleware 4", req.url, req.method);
-  res.send(`<h1>HOME PAGE </h1>
-    <a href="/contact_us"><h1> Contact form </h1> </a>
-    `);
+  res.sendFile(path.join(__dirname, "../", "Pages", "home.html"));
 });
 module.exports = userRouter;
