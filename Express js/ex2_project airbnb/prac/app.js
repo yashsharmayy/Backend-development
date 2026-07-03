@@ -1,44 +1,18 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+const path = require("path");
+
+//local module
+const userRoute = require("./Routes/userRoute");
+const contactRoute = require("./Routes/contactRoute");
+const urlencoded = require("body-parser/urlencoded");
 
 const app = express();
+app.use(express.urlencoded());
+app.use(userRoute);
+app.use(contactRoute);
 
 app.use((req, res, next) => {
-  console.log("middleware 1", req.url, req.method);
-  next();
-});
-app.use((req, res, next) => {
-  console.log("middleware 2", req.url, req.method);
-  next();
-});
-app.use((req, res, next) => {
-  console.log("middleware 3", req.url, req.method);
-  next();
-});
-app.get("/", (req, res, next) => {
-  console.log("middleware 4", req.url, req.method);
-  res.send("<h1>HOME PAGE </h1>");
-});
-app.get("/contact_us", (req, res, next) => {
-  console.log("middleware 5", req.url, req.method);
-  res.send(`
-    <form action="/contact_us" method="POST">
-      <input type="text" name="name" placeholder="Enter name"><br>
-      <input type="email" name="email" placeholder="Enter email"><br>
-      <button type="submit">Submit</button>
-    </form>
-  `);
-});
-app.post("/contact_us", (req, res, next) => {
-  console.log("First Handling ", req.url, req.method, req.body);
-  next();
-});
-
-app.use(bodyParser.urlencoded());
-
-app.post("/contact_us", (req, res) => {
-  console.log("Handling POST request", req.url, req.method, req.body);
-  res.send("<h1>Form Submitted</h1>");
+  res.status(404).sendFile(path.join(__dirname, "pages", "404.html"));
 });
 
 const PORT = 2000;
