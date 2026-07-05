@@ -11,6 +11,8 @@ app.use(express.urlencoded());
 app.use(userRoute);
 app.use(contactRoute);
 
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, "pages", "404.html"));
 });
