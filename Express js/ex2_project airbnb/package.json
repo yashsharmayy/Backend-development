@@ -11,6 +11,8 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
-    "nodemon": "^3.1.14"
+    "ejs": "^6.0.1",
+    "nodemon": "^3.1.14",
+    "save": "^2.9.0"
   }
 }

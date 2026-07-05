@@ -6,6 +6,8 @@ const path = require("path");
 const hostRouter = express.Router();
 
 hostRouter.get("/contact_us", (req, res, next) => {
+  console.log(res.body);
+
   res.sendFile(path.join(__dirname, "../", "Pages", "Contactform.html"));
 });
 
