@@ -10,7 +10,10 @@ const rootDir = require("../utils/pathUtil");
 
 hostRouter.get("/add-home", (req, res, next) => {
   // res.sendFile(path.join(__dirname, "../", "pages", "addHome.html"));
-  res.sendFile(path.join(rootDir, "pages", "addHome.html"));
+  // res.sendFile(path.join(rootDir, "views", "addHome.html"));
+  res.render("addHome", {
+    title: "registration form",
+  });
 });
 
 const registrationForm = [];
@@ -20,7 +23,10 @@ hostRouter.post("/add-home", (req, res, next) => {
   registrationForm.push({ userName: req.body.name });
 
   // res.sendFile(path.join(__dirname, "../", "pages", "success.html"));
-  res.sendFile(path.join(rootDir, "pages", "success.html"));
+  // res.sendFile(path.join(rootDir, "views", "success.html"));
+  res.render("success", {
+    title: "success msg",
+  });
 });
 
 exports.hostRouter = hostRouter;
