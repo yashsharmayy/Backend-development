@@ -18,7 +18,7 @@ exports.getHomepage = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "pages", "Home.html"));
 
   //using ejs
-  res.render("Home", {
+  res.render("store/HomePage", {
     registrationForm: registrationForm,
     title: "airbnb home",
   });
@@ -29,7 +29,7 @@ const registrationForm = [];
 exports.getAddhomepage = (req, res, next) => {
   // res.sendFile(path.join(__dirname, "../", "pages", "addHome.html"));
   // res.sendFile(path.join(rootDir, "views", "addHome.html"));
-  res.render("addHome", {
+  res.render("host/addHome", {
     title: "registration form",
   });
 };
@@ -40,7 +40,7 @@ exports.postAddhomepage = (req, res, next) => {
 
   // res.sendFile(path.join(__dirname, "../", "pages", "success.html"));
   // res.sendFile(path.join(rootDir, "views", "success.html"));
-  res.render("success", {
+  res.render("host/success", {
     title: "success msg",
   });
 };
@@ -48,7 +48,7 @@ exports.postAddhomepage = (req, res, next) => {
 //homeList router
 
 exports.getHomeListrouter = (req, res, next) => {
-  res.render("homeForm", {
+  res.render("host/homeForm", {
     title: "home registration form",
   });
 };
@@ -58,7 +58,7 @@ exports.postHomeListrouter = (req, res) => {
   const home = new Home(ownerName, homeName, price, rating, location, photo);
   home.save();
   Home.fetchAll((homes) => {
-    res.render("homeCard", {
+    res.render("store/homeCard", {
       title: "home details",
       homes: homes,
     });
