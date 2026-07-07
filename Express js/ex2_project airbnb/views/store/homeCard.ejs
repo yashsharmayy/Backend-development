@@ -74,10 +74,15 @@
 
             <!-- Content -->
             <div class="p-6">
+<div class="flex w-full justify-between">
 
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">
-                    <%= home.homeName %>
-                </h2>
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">
+        <%= home.homeName %>
+    </h2>
+    <button class="inline-flex text-white bg-blue-600 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded-2xl text-lg">
+        ❤️ Add to favorites
+    </button>
+</div>
 
                 <p class="text-gray-500 mb-4">
                     👤 <%= home.ownerName %>
@@ -103,6 +108,11 @@
                         class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl transition"
                     >
                         View Details
+                    </button>
+                    <button
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl transition"
+                    >
+                        Book
                     </button>
 
                 </div>

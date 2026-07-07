@@ -5,10 +5,10 @@ const express = require("express");
 
 //local module (routes)
 const userRouter = require("./routes/userRouter");
-const { hostRouter } = require("./routes/hostRouter");
-const { homelistRouter } = require("./routes/homelistRouter");
+const hostRouter = require("./routes/hostRouter");
+const homelistRouter = require("./routes/homelistRouter");
 const rootDir = require("./utils/pathUtil");
-const { get404 } = require("./controllers/Home");
+const { get404 } = require("./controllers/host");
 
 const app = express();
 

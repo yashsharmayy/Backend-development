@@ -7,10 +7,12 @@ const express = require("express");
 //local module
 const hostRouter = express.Router();
 const rootDir = require("../utils/pathUtil");
-const controller = require("../controllers/Home");
+const storeController = require("../controllers/store");
+const hostController = require("../controllers/host");
 
-hostRouter.get("/add-home", controller.getAddhomepage);
-hostRouter.post("/add-home", controller.postAddhomepage);
+hostRouter.get("/add-home", hostController.getAddhomepage);
+hostRouter.post("/add-home", hostController.postAddhomepage);
+hostRouter.get("/admin-home-list", hostController.AdminHomeListrouter);
 
 // hostRouter.get("/add-home", (req, res, next) => {
 //   // res.sendFile(path.join(__dirname, "../", "pages", "addHome.html"));
@@ -31,4 +33,5 @@ hostRouter.post("/add-home", controller.postAddhomepage);
 //   });
 // });
 
-exports.hostRouter = hostRouter;
+// exports.hostRouter = hostRouter;
+module.exports = hostRouter;

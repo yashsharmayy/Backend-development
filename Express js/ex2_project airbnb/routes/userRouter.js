@@ -5,8 +5,8 @@ const path = require("path");
 //local module
 const userRouter = express.Router();
 const rootDir = require("../utils/pathUtil");
-const controller = require("../controllers/Home");
+const storeController = require("../controllers/store");
 
-userRouter.get("/", controller.getHomepage);
+userRouter.get("/", storeController.getHomepage);
 
 module.exports = userRouter;

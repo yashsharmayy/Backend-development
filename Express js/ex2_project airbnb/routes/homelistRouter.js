@@ -1,11 +1,11 @@
 const express = require("express");
 const path = require("path");
-const { title } = require("process");
-const controller = require("../controllers/Home");
+const storeController = require("../controllers/store");
 
 const homelistRouter = express.Router();
 
-homelistRouter.get("/homeForm", controller.getHomeListrouter);
-homelistRouter.post("/homeCard", controller.postHomeListrouter);
+homelistRouter.get("/homeForm", storeController.getHomeListrouter);
+homelistRouter.post("/homeCard", storeController.postHomeListrouter);
 
-exports.homelistRouter = homelistRouter;
+// exports.homelistRouter = homelistRouter;
+module.exports = homelistRouter;
