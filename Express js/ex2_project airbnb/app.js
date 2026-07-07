@@ -8,6 +8,7 @@ const userRouter = require("./routes/userRouter");
 const { hostRouter } = require("./routes/hostRouter");
 const { homelistRouter } = require("./routes/homelistRouter");
 const rootDir = require("./utils/pathUtil");
+const { get404 } = require("./controllers/Home");
 
 const app = express();
 
@@ -21,12 +22,7 @@ app.use(userRouter);
 app.use("/host", hostRouter);
 app.use("/homeList", homelistRouter);
 
-app.use((req, res, next) => {
-  // res.status(404).sendFile(path.join(rootDir, "views", "404.html"));
-  res.status(404).render("404", {
-    title: "page 404",
-  });
-});
+app.use(get404);
 
 const PORT = 3001;
 app.listen(PORT, () => {

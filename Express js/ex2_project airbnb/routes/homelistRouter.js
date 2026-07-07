@@ -1,24 +1,11 @@
 const express = require("express");
 const path = require("path");
 const { title } = require("process");
+const controller = require("../controllers/Home");
 
 const homelistRouter = express.Router();
 
-const homedetails = [];
-
-homelistRouter.get("/homeForm", (req, res, next) => {
-  res.render("homeForm", {
-    title: "home registration form",
-  });
-});
-homelistRouter.post("/homeCard", (req, res) => {
-  console.log("Home registration successfuly", req.body);
-
-  homedetails.push(req.body);
-  res.render("homeCard", {
-    title: "home details",
-    homes: homedetails,
-  });
-});
+homelistRouter.get("/homeForm", controller.getHomeListrouter);
+homelistRouter.post("/homeCard", controller.postHomeListrouter);
 
 exports.homelistRouter = homelistRouter;
