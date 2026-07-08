@@ -7,8 +7,8 @@ const { error } = require("console");
 // fake database
 // let homedetails = [];
 
-const homeDataPath = path.join(rootDir, "data", "homes.json");
-module.exports = class Home {
+const favDataPath = path.join(rootDir, "data", "favData.json");
+module.exports = class Fav {
   constructor(ownerName, homeName, price, rating, location, photo) {
     this.ownerName = ownerName;
     this.homeName = homeName;
@@ -19,26 +19,17 @@ module.exports = class Home {
   }
 
   save() {
-    this.id = Math.floor(Math.random() * 10000);
-    Home.fetchAll((homedetails) => {
-      homedetails.push(this);
-      fs.writeFile(homeDataPath, JSON.stringify(homedetails), (error) => {
-        console.log("file writing concluded", error);
+    Fav.fetchAll((favdetails) => {
+      favdetails.push(this);
+      fs.writeFile(favDataPath, JSON.stringify(favdetails), (error) => {
+        console.log("file writing concluded for fav", error);
       });
     });
   }
 
   static fetchAll(callback) {
-    fs.readFile(homeDataPath, (err, data) => {
+    fs.readFile(favDataPath, (err, data) => {
       console.log("file read: ", err, data);
-      //   if (err) {
-      //     homedetails = [];
-      //   } else homedetails = JSON.parse(data);
-
-      // if (!err) {
-      //   homedetails = JSON.parse(data);
-      // }
-      // return homedetails;
 
       callback(!err ? JSON.parse(data) : []);
     });
