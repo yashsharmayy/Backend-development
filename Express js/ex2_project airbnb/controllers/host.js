@@ -69,4 +69,16 @@ exports.posteditpage = (req, res, next) => {
   home.save();
   res.redirect("/host/admin-home-list");
 };
+
+exports.postdeletepage = (req, res, next) => {
+  const homeId = req.params.homeId;
+  console.log(homeId, "deleted");
+  Home.deleteById(homeId, (err) => {
+    if (err) {
+      console.log("deleting error", err);
+    }
+    res.redirect("/host/admin-home-list");
+  });
+};
+
 exports.registrationForm = registrationForm;

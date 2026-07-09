@@ -84,12 +84,8 @@ exports.getStoreRouter = (req, res, next) => {
 exports.postStoreRouter = (req, res) => {
   const { ownerName, homeName, price, rating, location, photo } = req.body;
   const home = new Home(ownerName, homeName, price, rating, location, photo);
-  home.save();
-  Home.fetchAll((homes) => {
-    res.render("store/homeCard", {
-      title: "home details",
-      homes: homes,
-    });
+  home.save(() => {
+    res.redirect("/homeList/homeCard");
   });
 };
 exports.getStoreRouternav = (req, res) => {

@@ -15,6 +15,8 @@ hostRouter.post("/add-home", hostController.postAddhomepage);
 hostRouter.get("/admin-home-list", hostController.AdminHomeListrouter);
 hostRouter.get("/edit-home/:homeId", hostController.geteditpage);
 hostRouter.post("/edit-home/:homeId", hostController.posteditpage);
+hostRouter.post("/delete-home/:homeId", hostController.postdeletepage);
+
 // hostRouter.get("/add-home", (req, res, next) => {
 //   // res.sendFile(path.join(__dirname, "../", "pages", "addHome.html"));
 //   // res.sendFile(path.join(rootDir, "views", "addHome.html"));

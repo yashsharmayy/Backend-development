@@ -18,22 +18,25 @@ module.exports = class Home {
     this.photo = photo;
   }
 
-  save() {
+  save(callback) {
     Home.fetchAll((homedetails) => {
       if (this.id) {
-        // edit home
+        // Update existing home
         homedetails = homedetails.map((home) =>
           home.id == this.id ? this : home,
         );
       } else {
-        // add home
-
+        // Add new home
         this.id = Math.floor(Math.random() * 10000);
         homedetails.push(this);
       }
 
-      fs.writeFile(homeDataPath, JSON.stringify(homedetails), (error) => {
-        console.log("file writing concluded", error);
+      fs.writeFile(homeDataPath, JSON.stringify(homedetails), (err) => {
+        console.log("File writing completed", err);
+
+        if (callback) {
+          callback(err);
+        }
       });
     });
   }
@@ -58,6 +61,12 @@ module.exports = class Home {
     this.fetchAll((homes) => {
       const homeFound = homes.find((home) => home.id == homeId);
       callback(homeFound);
+    });
+  }
+  static deleteById(homeId, callback) {
+    this.fetchAll((homes) => {
+      homes = homes.filter((home) => home.id != homeId);
+      fs.writeFile(homeDataPath, JSON.stringify(homes), callback);
     });
   }
 };
