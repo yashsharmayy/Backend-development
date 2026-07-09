@@ -41,4 +41,10 @@ module.exports = class Fav {
       callback(homeFound);
     });
   }
+  static deleteById(homeId, callback) {
+    this.fetchAll((homes) => {
+      homes = homes.filter((home) => home.id != homeId);
+      fs.writeFile(favDataPath, JSON.stringify(homes), callback);
+    });
+  }
 };

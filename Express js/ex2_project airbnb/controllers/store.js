@@ -50,6 +50,15 @@ exports.postFavpage = (req, res) => {
   });
 };
 
+exports.postremoveFavpage = (req, res) => {
+  const homeId = req.params.homeId;
+  Fav.deleteById(homeId, (err) => {
+    if (err) {
+      console.log("error in remove fav");
+    }
+  });
+  res.redirect("/homeList/favourite-list");
+};
 exports.getBookpage = (req, res) => {
   res.render("store/booking", {
     title: "Bookinngs",
