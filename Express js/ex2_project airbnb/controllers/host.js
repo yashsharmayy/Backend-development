@@ -47,4 +47,26 @@ exports.AdminHomeListrouter = (req, res) => {
 };
 //
 
+exports.geteditpage = (req, res, next) => {
+  const homeId = req.params.homeId;
+  const editing = req.query.editing === "true";
+  Home.findById(homeId, (home) => {
+    if (!home) {
+      console.log("home not found");
+      return res.redirect("/host/admin-home-list");
+    }
+    res.render("host/edit-home", {
+      home: home,
+      title: "Edit home",
+      editing: editing,
+    });
+  });
+};
+exports.posteditpage = (req, res, next) => {
+  const { id, ownerName, homeName, price, rating, location, photo } = req.body;
+  const home = new Home(ownerName, homeName, price, rating, location, photo);
+  home.id = id;
+  home.save();
+  res.redirect("/host/admin-home-list");
+};
 exports.registrationForm = registrationForm;

@@ -19,9 +19,19 @@ module.exports = class Home {
   }
 
   save() {
-    this.id = Math.floor(Math.random() * 10000);
     Home.fetchAll((homedetails) => {
-      homedetails.push(this);
+      if (this.id) {
+        // edit home
+        homedetails = homedetails.map((home) =>
+          home.id == this.id ? this : home,
+        );
+      } else {
+        // add home
+
+        this.id = Math.floor(Math.random() * 10000);
+        homedetails.push(this);
+      }
+
       fs.writeFile(homeDataPath, JSON.stringify(homedetails), (error) => {
         console.log("file writing concluded", error);
       });
