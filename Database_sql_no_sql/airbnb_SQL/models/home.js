@@ -1,14 +1,5 @@
-const fs = require("fs");
-const path = require("path");
-const rootDir = require("../utils/pathUtil");
-const { json } = require("stream/consumers");
-const { error } = require("console");
-const Fav = require("./favourites");
+const db = require("../utils/databaseUtil");
 
-// fake database
-// let homedetails = [];
-
-const homeDataPath = path.join(rootDir, "data", "homes.json");
 module.exports = class Home {
   constructor(ownerName, homeName, price, rating, location, photo) {
     this.ownerName = ownerName;
@@ -19,63 +10,12 @@ module.exports = class Home {
     this.photo = photo;
   }
 
-  save(callback) {
-    Home.fetchAll((homedetails) => {
-      if (this.id) {
-        // Update existing home
-        homedetails = homedetails.map((home) =>
-          home.id == this.id ? this : home,
-        );
-      } else {
-        // Add new home
-        this.id = Math.floor(Math.random() * 10000);
-        homedetails.push(this);
-      }
+  save(callback) {}
 
-      fs.writeFile(homeDataPath, JSON.stringify(homedetails), (err) => {
-        console.log("File writing completed", err);
-
-        if (callback) {
-          callback(err);
-        }
-      });
-    });
+  static fetchAll() {
+    return db.execute("SELECT * FROM homes");
   }
 
-  static fetchAll(callback) {
-    fs.readFile(homeDataPath, (err, data) => {
-      console.log("file read: ", err, data);
-      //   if (err) {
-      //     homedetails = [];
-      //   } else homedetails = JSON.parse(data);
-
-      // if (!err) {
-      //   homedetails = JSON.parse(data);
-      // }
-      // return homedetails;
-
-      callback(!err ? JSON.parse(data) : []);
-    });
-  }
-
-  static findById(homeId, callback) {
-    this.fetchAll((homes) => {
-      const homeFound = homes.find((home) => home.id == homeId);
-      callback(homeFound);
-    });
-  }
-  static deleteById(homeId, callback) {
-    this.fetchAll((homes) => {
-      homes = homes.filter((home) => home.id != homeId);
-
-      fs.writeFile(
-        homeDataPath,
-        JSON.stringify(homes),
-        (err) => {
-          Fav.deleteById(homeId, callback);
-        },
-        callback,
-      );
-    });
-  }
+  static findById(homeId, callback) {}
+  static deleteById(homeId, callback) {}
 };

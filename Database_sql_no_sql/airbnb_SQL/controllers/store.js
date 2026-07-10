@@ -5,15 +5,11 @@ const Home = require("../models/home");
 const { registrationForm } = require("./host");
 
 exports.getHomepage = (req, res, next) => {
-  // old routing
-  //   res.sendFile(path.join(__dirname, "../", "pages", "Home.html"));
-  // new routing
-  // res.sendFile(path.join(rootDir, "pages", "Home.html"));
-
-  //using ejs
-  res.render("store/HomePage", {
-    registrationForm: registrationForm,
-    title: "airbnb home",
+  Home.fetchAll().then(([registrationForm]) => {
+    res.render("store/HomePage", {
+      registrationForm: registrationForm,
+      title: "airbnb home",
+    });
   });
 };
 exports.getFavpage = (req, res) => {
@@ -98,7 +94,7 @@ exports.postStoreRouter = (req, res) => {
   });
 };
 exports.getStoreRouternav = (req, res) => {
-  Home.fetchAll((homes) => {
+  Home.fetchAll().then(([homes]) => {
     res.render("store/homeCard", {
       title: "home details",
       homes: homes,

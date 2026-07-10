@@ -38,7 +38,7 @@ exports.AdminHomeListrouter = (req, res) => {
   // const { ownerName, homeName, price, rating, location, photo } = req.body;
   // const home = new Home(ownerName, homeName, price, rating, location, photo);
   // home.save();
-  Home.fetchAll((homes) => {
+  Home.fetchAll().then(([homes]) => {
     res.render("host/admin-home-list", {
       title: "Admin home details",
       homes: homes,

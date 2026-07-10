@@ -9,6 +9,7 @@ const hostRouter = require("./routes/hostRouter");
 const StoreRouter = require("./routes/storeRouter");
 const rootDir = require("./utils/pathUtil");
 const { get404 } = require("./controllers/host");
+const { error } = require("console");
 
 const app = express();
 
