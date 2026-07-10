@@ -56,8 +56,8 @@ exports.postremoveFavpage = (req, res) => {
     if (err) {
       console.log("error in remove fav");
     }
+    res.redirect("/homeList/favourite-list");
   });
-  res.redirect("/homeList/favourite-list");
 };
 exports.getBookpage = (req, res) => {
   res.render("store/booking", {
