@@ -50,7 +50,8 @@ exports.AdminHomeListrouter = (req, res) => {
 exports.geteditpage = (req, res, next) => {
   const homeId = req.params.homeId;
   const editing = req.query.editing === "true";
-  Home.findById(homeId, (home) => {
+  Home.findById(homeId).then(([homes]) => {
+    const home = homes[0];
     if (!home) {
       console.log("home not found");
       return res.redirect("/host/admin-home-list");
@@ -63,22 +64,44 @@ exports.geteditpage = (req, res, next) => {
   });
 };
 exports.posteditpage = (req, res, next) => {
-  const { id, ownerName, homeName, price, rating, location, photo } = req.body;
-  const home = new Home(ownerName, homeName, price, rating, location, photo);
+  const id = req.params.homeId;
+
+  const { ownerName, homeName, price, rating, location, photo, description } =
+    req.body;
+
+  const home = new Home(
+    ownerName,
+    homeName,
+    price,
+    rating,
+    location,
+    photo,
+    description,
+  );
+
   home.id = id;
-  home.save();
-  res.redirect("/host/admin-home-list");
+
+  home
+    .save()
+    .then(() => {
+      res.redirect("/host/admin-home-list");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 exports.postdeletepage = (req, res, next) => {
   const homeId = req.params.homeId;
   console.log(homeId, "deleted");
-  Home.deleteById(homeId, (err) => {
-    if (err) {
-      console.log("deleting error", err);
-    }
-    res.redirect("/host/admin-home-list");
-  });
+  Home.deleteById(homeId)
+    .then(([homes]) => {
+      const home = homes[0];
+      res.redirect("/host/admin-home-list");
+    })
+    .catch((error) => {
+      console.log("error while deleting", error);
+    });
 };
 
 exports.registrationForm = registrationForm;

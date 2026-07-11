@@ -36,6 +36,7 @@ exports.postFavpage = (req, res) => {
       home.rating,
       home.location,
       home.photo,
+      home.description,
     );
 
     fav.id = home.id;
@@ -68,7 +69,8 @@ exports.getReservepage = (req, res) => {
 exports.getHomedetails = (req, res) => {
   const homeId = req.params.homeId;
   console.log("at home details page", homeId);
-  Home.findById(homeId, (home) => {
+  Home.findById(homeId).then(([homes]) => {
+    const home = homes[0];
     if (!home) {
       console.log("home not found");
       res.redirect("/homes");
@@ -87,8 +89,18 @@ exports.getStoreRouter = (req, res, next) => {
   });
 };
 exports.postStoreRouter = (req, res) => {
-  const { ownerName, homeName, price, rating, location, photo } = req.body;
-  const home = new Home(ownerName, homeName, price, rating, location, photo);
+  const { ownerName, homeName, price, rating, location, photo, description } =
+    req.body;
+
+  const home = new Home(
+    ownerName,
+    homeName,
+    price,
+    rating,
+    location,
+    photo,
+    description,
+  );
   home.save(() => {
     res.redirect("/homeList/homeCard");
   });
