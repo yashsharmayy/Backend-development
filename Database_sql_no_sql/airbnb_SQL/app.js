@@ -28,8 +28,7 @@ app.use("/homeList", StoreRouter);
 app.use(get404);
 
 const PORT = 3001;
-mongoConnect((client) => {
-  console.log(client);
+mongoConnect(() => {
   app.listen(PORT, () => {
     console.log(`server running on http://localhost:${PORT}`);
   });
