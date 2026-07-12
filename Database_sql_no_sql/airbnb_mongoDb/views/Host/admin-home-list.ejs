@@ -1,0 +1,204 @@
+<%- include('../partials/head') %>
+
+<body class="bg-gray-100 min-h-screen">
+
+<%- include('../partials/navbar') %>
+
+
+
+<div class="max-w-6xl mx-auto px-5 py-8">
+
+
+    <!-- Header -->
+    <div class="bg-white rounded-2xl shadow p-6 mb-8 flex justify-between items-center">
+
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">
+                🏠 Property Management
+            </h1>
+
+            <p class="text-gray-500 mt-1">
+                Manage, edit and remove your listed homes.
+            </p>
+        </div>
+
+
+        <a
+            href="/homeList/homeForm"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl shadow transition"
+        >
+            + Add Home
+        </a>
+
+    </div>
+
+
+
+    <% if(homes.length === 0){ %>
+
+
+    <div  class="bg-white rounded-2xl shadow p-10 text-center">
+
+        <h2 class="text-2xl font-bold text-gray-700">
+            No Homes Found
+        </h2>
+
+        <p class="text-gray-500 mt-2">
+            Start by adding a new property.
+        </p>
+
+    </div>
+
+
+    <% } else { %>
+
+
+
+    <div   class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+
+    <% homes.forEach(home => { %>
+
+
+        <div class="bg-white rounded-2xl shadow hover:shadow-xl transition overflow-hidden">
+
+
+            <!-- Small Image -->
+                <div class="relative h-28 overflow-hidden">
+                <div class="overflow-hidden imgFix w-100 h-75">
+
+     <img
+        src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500"
+        class="w-full h-full object-cover"
+        alt="home"
+    >
+</div>
+
+    <div class="absolute top-2 right-2">
+        <span class="bg-yellow-400 text-black px-2 py-1 rounded-full text-xs font-bold shadow">
+            ⭐ <%= home.rating %>
+        </span>
+    </div>
+
+</div>
+
+
+
+
+
+            <!-- Content -->
+
+            <div class="p-5">
+
+
+                <div class="flex justify-between items-center mb-3">
+
+
+                    <h2 class="text-xl font-bold text-gray-800 truncate">
+
+                        <%= home.homeName %>
+
+                    </h2>
+
+
+                    <span class="text-green-600 font-bold">
+
+                        ₹<%= home.price %>
+
+                    </span>
+
+
+                </div>
+
+
+
+
+
+               <div class="text-sm text-gray-600 space-y-2">
+
+                    <p>
+                        👤 <b>Owner:</b>
+                        <%= home.ownerName %>
+                    </p>
+
+                    <p>
+                        📍 <b>Location:</b>
+                        <%= home.location %>
+                    </p>
+
+                    <p class="mt-3 text-gray-600 text-sm leading-relaxed line-clamp-3">
+                        📝 <b>Description:</b>
+                        <%= home.description %>
+                    </p>
+
+                </div>
+              
+
+
+
+                <!-- Buttons -->
+
+
+                <div class="flex gap-2 mt-5">
+
+
+                    <a
+                         href="/homeList/home/<%= home.id %>"
+                        class="flex-1 text-center bg-gray-800 hover:bg-black text-white py-2 rounded-lg text-sm"
+                    >
+                        View
+                    </a>
+
+
+
+                    <a
+                        href="/host/edit-home/<%= home.id %>?editing=true"
+                        class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm"
+                    >
+                        ✏ Edit
+                    </a>
+
+
+                </div>
+
+
+
+                <form
+                    action="/host/delete-home/<%= home.id %>?editing=true"
+                    method="POST"
+                    class="mt-2"
+                >
+
+                    <button
+                        class="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg text-sm"
+                    >
+                        🗑 Delete
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+
+
+    <% }) %>
+
+
+    </div>
+
+
+
+    <% } %>
+
+
+
+</div>
+
+
+</body>
+</html>

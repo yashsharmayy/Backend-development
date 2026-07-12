@@ -1,0 +1,174 @@
+<%- include('../partials/head') %>
+
+<body class="bg-gray-100 min-h-screen">
+
+<%- include('../partials/navbar') %>
+
+<!-- Main Container -->
+<div class="max-w-6xl mx-auto mt-24 mb-16 px-6">
+
+    <div class="bg-white rounded-3xl shadow-2xl overflow-hidden grid lg:grid-cols-2">
+
+        <!-- Left Side -->
+        <div class="bg-linear-to-br from-blue-600 to-blue-800 text-white p-12 flex flex-col justify-center">
+
+            <h1 class="text-5xl font-bold leading-tight mb-6">
+                Register Your <br> Dream Home
+            </h1>
+
+            <p class="text-lg text-blue-100 mb-10">
+                Fill in your property details and publish your home for guests around the world.
+            </p>
+
+            <img
+                src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=900"
+                alt="House"
+                class="rounded-2xl h-72 w-full object-cover shadow-xl"
+            >
+
+        </div>
+
+        <!-- Right Side -->
+        <div class="p-12">
+
+            <h2 class="text-4xl font-bold text-gray-800">
+                Home Registration
+            </h2>
+
+            <p class="text-gray-500 mt-2 mb-8">
+                Enter your property details below.
+            </p>
+
+            <form
+                action="/homeList/homeCard"
+                method="POST"
+                class="space-y-6"
+            >
+
+                <!-- Owner -->
+                <div>
+                    <label class="block font-semibold mb-2">
+                        Owner Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="ownerName"
+                        placeholder="John Doe"
+                        class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        required
+                    >
+                </div>
+
+                <!-- Home Name -->
+                <div>
+                    <label class="block font-semibold mb-2">
+                        Home Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="homeName"
+                        placeholder="Luxury Villa"
+                        class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        required
+                    >
+                </div>
+
+                <!-- Price & Rating -->
+                <div class="grid grid-cols-2 gap-5">
+
+                    <div>
+                        <label class="block font-semibold mb-2">
+                            Price
+                        </label>
+
+                        <input
+                            type="number"
+                            name="price"
+                            placeholder="2500"
+                            class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            required
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold mb-2">
+                            Rating
+                        </label>
+
+                        <input
+                            type="number"
+                            name="rating"
+                            min="1"
+                            max="5"
+                            step="0.1"
+                            placeholder="4.8"
+                            class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <!-- Location -->
+                <div>
+                    <label class="block font-semibold mb-2">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        name="location"
+                        placeholder="Delhi, India"
+                        class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        required
+                    >
+                </div>
+
+                <!-- Photo URL -->
+                <div>
+                    <label class="block font-semibold mb-2">
+                        Home Image URL
+                    </label>
+
+                    <input
+                        type="text"
+                        name="photo"
+                        placeholder="https://example.com/image.jpg"
+                        class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    >
+                </div>
+                <!-- Description -->
+                    <div>
+                        <label class="block font-semibold mb-2">
+                            Description
+                        </label>
+
+                        <textarea
+                            name="description"
+                            rows="4"
+                            placeholder="Describe your home, amenities, nearby attractions, and what makes it special..."
+                            class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none"
+                            required
+                        ></textarea>
+                    </div>
+
+                <!-- Button -->
+                <button
+                    type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition duration-300"
+                >
+                    Register Home
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
