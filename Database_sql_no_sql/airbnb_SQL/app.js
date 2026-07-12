@@ -26,7 +26,6 @@ app.use("/host", hostRouter);
 app.use("/homeList", StoreRouter);
 
 app.use(get404);
-
 const PORT = 3001;
 mongoConnect(() => {
   app.listen(PORT, () => {
