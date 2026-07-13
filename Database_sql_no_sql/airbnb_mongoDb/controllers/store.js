@@ -69,8 +69,7 @@ exports.getReservepage = (req, res) => {
 exports.getHomedetails = (req, res) => {
   const homeId = req.params.homeId;
   console.log("at home details page", homeId);
-  Home.findById(homeId).then(([homes]) => {
-    const home = homes[0];
+  Home.findById(homeId).then((homes) => {
     if (!home) {
       console.log("home not found");
       res.redirect("/homes");
@@ -101,12 +100,17 @@ exports.postStoreRouter = (req, res) => {
     photo,
     description,
   );
-  home.save(() => {
-    res.redirect("/homeList/homeCard");
-  });
+  home
+    .save()
+    .then(() => {
+      res.redirect("/homeList/homeCard");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 exports.getStoreRouternav = (req, res) => {
-  Home.fetchAll().then(([homes]) => {
+  Home.fetchAll().then((homes) => {
     res.render("store/homeCard", {
       title: "home details",
       homes: homes,

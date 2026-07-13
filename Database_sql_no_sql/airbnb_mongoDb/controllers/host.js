@@ -97,7 +97,7 @@ exports.postdeletepage = (req, res, next) => {
   const homeId = req.params.homeId;
   console.log(homeId, "deleted");
   Home.deleteById(homeId)
-    .then(([homes]) => {
+    .then((homes) => {
       const home = homes[0];
       res.redirect("/host/admin-home-list");
     })
