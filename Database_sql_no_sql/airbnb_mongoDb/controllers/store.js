@@ -5,7 +5,7 @@ const Home = require("../models/home");
 const { registrationForm } = require("./host");
 
 exports.getHomepage = (req, res, next) => {
-  Home.fetchAll().then(([registrationForm]) => {
+  Home.fetchAll().then((registrationForm) => {
     res.render("store/HomePage", {
       registrationForm: registrationForm,
       title: "airbnb home",

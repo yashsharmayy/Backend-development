@@ -1,4 +1,4 @@
-const db = require("../utils/databaseUtil");
+const { getDB } = require("../../airbnb_mongoDb/utils/databaseUtil");
 
 module.exports = class Home {
   constructor(
@@ -20,47 +20,14 @@ module.exports = class Home {
   }
 
   save() {
-    if (this.id) {
-      return db.execute(
-        `UPDATE homes
-       SET ownerName = ?, homeName = ?, price = ?, rating = ?, location = ?, photo = ?, description = ?
-       WHERE id = ?`,
-        [
-          this.ownerName,
-          this.homeName,
-          this.price,
-          this.rating,
-          this.location,
-          this.photo,
-          this.description,
-          this.id,
-        ],
-      );
-    } else {
-      return db.execute(
-        `INSERT INTO homes
-      (ownerName, homeName, price, rating, location, photo, description)
-      VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [
-          this.ownerName,
-          this.homeName,
-          this.price,
-          this.rating,
-          this.location,
-          this.photo,
-          this.description,
-        ],
-      );
-    }
+    const db = getDB();
+    return db.collection("homes").insertOne(this);
   }
   static fetchAll() {
-    return db.execute("SELECT * FROM homes");
+    const db = getDB();
+    return db.collection("homes").find().toArray();
   }
 
-  static findById(homeId) {
-    return db.execute(`SELECT * FROM homes WHERE id = ?`, [homeId]);
-  }
-  static deleteById(homeId) {
-    return db.execute(`DELETE FROM homes WHERE id = ?`, [homeId]);
-  }
+  static findById(homeId) {}
+  static deleteById(homeId) {}
 };

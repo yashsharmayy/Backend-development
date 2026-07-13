@@ -84,6 +84,8 @@ exports.posteditpage = (req, res, next) => {
   home
     .save()
     .then(() => {
+      console.log("home save successfuly");
+
       res.redirect("/host/admin-home-list");
     })
     .catch((err) => {

@@ -10,6 +10,8 @@ const StoreRouter = require("./routes/storeRouter");
 const rootDir = require("./utils/pathUtil");
 const { get404 } = require("./controllers/host");
 const { error } = require("console");
+const { mongoConnect } = require("../airbnb_mongoDb/utils/databaseUtil");
+const { callbackify } = require("util");
 
 const app = express();
 
@@ -24,8 +26,9 @@ app.use("/host", hostRouter);
 app.use("/homeList", StoreRouter);
 
 app.use(get404);
-
 const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`server running on http://localhost:${PORT}`);
+mongoConnect(() => {
+  app.listen(PORT, () => {
+    console.log(`server running on http://localhost:${PORT}`);
+  });
 });
