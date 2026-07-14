@@ -19,32 +19,11 @@ module.exports = class Fav {
   }
 
   save() {
-    Fav.fetchAll((favdetails) => {
-      favdetails.push(this);
-      fs.writeFile(favDataPath, JSON.stringify(favdetails), (error) => {
-        console.log("file writing concluded for fav", error);
-      });
-    });
+    Fav.fetchAll((favdetails) => {});
   }
 
-  static fetchAll(callback) {
-    fs.readFile(favDataPath, (err, data) => {
-      console.log("file read: ", err, data);
+  static fetchAll(callback) {}
 
-      callback(!err ? JSON.parse(data) : []);
-    });
-  }
-
-  static findById(homeId, callback) {
-    this.fetchAll((homes) => {
-      const homeFound = homes.find((home) => home._id == homeId);
-      callback(homeFound);
-    });
-  }
-  static deleteById(homeId, callback) {
-    this.fetchAll((homes) => {
-      homes = homes.filter((home) => home._id != homeId);
-      fs.writeFile(favDataPath, JSON.stringify(homes), callback);
-    });
-  }
+  static findById(homeId, callback) {}
+  static deleteById(homeId, callback) {}
 };
