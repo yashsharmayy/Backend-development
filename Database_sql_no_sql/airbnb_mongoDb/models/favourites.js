@@ -18,9 +18,7 @@ module.exports = class Fav {
     this.photo = photo;
   }
 
-  save() {
-    Fav.fetchAll((favdetails) => {});
-  }
+  save() {}
 
   static fetchAll(callback) {}
 
