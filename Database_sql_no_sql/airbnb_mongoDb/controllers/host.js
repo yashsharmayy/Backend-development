@@ -50,8 +50,7 @@ exports.AdminHomeListrouter = (req, res) => {
 exports.geteditpage = (req, res, next) => {
   const homeId = req.params.homeId;
   const editing = req.query.editing === "true";
-  Home.findById(homeId).then(([homes]) => {
-    const home = homes[0];
+  Home.findById(homeId).then((home) => {
     if (!home) {
       console.log("home not found");
       return res.redirect("/host/admin-home-list");
@@ -83,8 +82,8 @@ exports.posteditpage = (req, res, next) => {
 
   home
     .save()
-    .then(() => {
-      console.log("home save successfuly");
+    .then((result) => {
+      console.log("home save successfuly", result);
 
       res.redirect("/host/admin-home-list");
     })
