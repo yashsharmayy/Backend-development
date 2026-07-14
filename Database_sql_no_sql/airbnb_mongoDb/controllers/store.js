@@ -39,7 +39,7 @@ exports.postFavpage = (req, res) => {
       home.description,
     );
 
-    fav.id = home.id;
+    fav.id = home._id;
 
     fav.save();
 
@@ -69,7 +69,7 @@ exports.getReservepage = (req, res) => {
 exports.getHomedetails = (req, res) => {
   const homeId = req.params.homeId;
   console.log("at home details page", homeId);
-  Home.findById(homeId).then((homes) => {
+  Home.findById(homeId).then((home) => {
     if (!home) {
       console.log("home not found");
       res.redirect("/homes");

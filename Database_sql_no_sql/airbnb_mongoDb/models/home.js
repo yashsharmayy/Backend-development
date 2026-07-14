@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const { getDB } = require("../../airbnb_mongoDb/utils/databaseUtil");
 
 module.exports = class Home {
@@ -9,6 +10,7 @@ module.exports = class Home {
     location,
     photo,
     description,
+    _id,
   ) {
     this.ownerName = ownerName;
     this.homeName = homeName;
@@ -17,11 +19,21 @@ module.exports = class Home {
     this.location = location;
     this.photo = photo;
     this.description = description;
+    if (_id) {
+      this.id = _id;
+    }
   }
 
   save() {
     const db = getDB();
-    return db.collection("homes").insertOne(this);
+    if (this._id) {
+      db.collection("homes").updateOne(
+        { _id: new ObjectId(String(this._id)) },
+        { $set: this },
+      );
+    } else {
+      return db.collection("homes").insertOne(this);
+    }
   }
   static fetchAll() {
     const db = getDB();
@@ -30,7 +42,15 @@ module.exports = class Home {
 
   static findById(homeId) {
     const db = getDB();
-    return db.collection("homes").find({ _id: homeId }).next();
+    return db
+      .collection("homes")
+      .find({ _id: new ObjectId(String(homeId)) })
+      .next();
   }
-  static deleteById(homeId) {}
+  static deleteById(homeId) {
+    const db = getDB();
+    return db
+      .collection("homes")
+      .deleteOne({ _id: new ObjectId(String(homeId)) });
+  }
 };

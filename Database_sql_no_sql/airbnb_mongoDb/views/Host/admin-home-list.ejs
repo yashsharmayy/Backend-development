@@ -143,7 +143,7 @@
 
 
                     <a
-                         href="/homeList/home/<%= home.id %>"
+                         href="/homeList/home/<%= home._id %>"
                         class="flex-1 text-center bg-gray-800 hover:bg-black text-white py-2 rounded-lg text-sm"
                     >
                         View
@@ -152,7 +152,7 @@
 
 
                     <a
-                        href="/host/edit-home/<%= home.id %>?editing=true"
+                        href="/host/edit-home/<%= home._id %>?editing=true"
                         class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm"
                     >
                         ✏ Edit
@@ -164,7 +164,7 @@
 
 
                 <form
-                    action="/host/delete-home/<%= home.id %>?editing=true"
+                    action="/host/delete-home/<%= home._id %>?editing=true"
                     method="POST"
                     class="mt-2"
                 >

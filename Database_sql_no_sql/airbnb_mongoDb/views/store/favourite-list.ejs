@@ -117,7 +117,7 @@
                 <div class="grid grid-cols-2 gap-3 mt-6">
 
                     <a
-                        href="/homeList/home/<%= home.id %>"
+                        href="/homeList/home/<%= home._id %>"
                         class="text-center bg-gray-900 hover:bg-black text-white py-3 rounded-xl font-semibold transition"
                     >
                         View Details
@@ -134,7 +134,7 @@
 
                 <!-- Remove Favourite -->
                 <form
-                    action="/homeList/favourite-list/delete/<%=home.id%>"
+                    action="/homeList/favourite-list/delete/<%=home._id%>"
                     method="POST"
                     class="mt-4"
                 >
@@ -142,7 +142,7 @@
                     <input
                         type="hidden"
                         name="id"
-                        value="<%= home.id %>"
+                        value="<%= home._id %>"
                     >
 
                     <button

@@ -37,13 +37,13 @@ module.exports = class Fav {
 
   static findById(homeId, callback) {
     this.fetchAll((homes) => {
-      const homeFound = homes.find((home) => home.id == homeId);
+      const homeFound = homes.find((home) => home._id == homeId);
       callback(homeFound);
     });
   }
   static deleteById(homeId, callback) {
     this.fetchAll((homes) => {
-      homes = homes.filter((home) => home.id != homeId);
+      homes = homes.filter((home) => home._id != homeId);
       fs.writeFile(favDataPath, JSON.stringify(homes), callback);
     });
   }
