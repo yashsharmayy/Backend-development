@@ -1,27 +1,28 @@
-const fs = require("fs");
-const path = require("path");
-const rootDir = require("../utils/pathUtil");
-const { json } = require("stream/consumers");
-const { error } = require("console");
+const { ObjectId } = require("mongodb");
+const { getDB } = require("../utils/databaseUtil");
 
-// fake database
-// let homedetails = [];
-
-const favDataPath = path.join(rootDir, "data", "favData.json");
-module.exports = class Fav {
-  constructor(ownerName, homeName, price, rating, location, photo) {
-    this.ownerName = ownerName;
-    this.homeName = homeName;
-    this.price = price;
-    this.rating = rating;
-    this.location = location;
-    this.photo = photo;
+module.exports = class Favourite {
+  constructor(homeId) {
+    this.homeId = new ObjectId(homeId);
   }
 
-  save() {}
+  save() {
+    const db = getDB();
 
-  static fetchAll(callback) {}
+    return db.collection("favourites").insertOne(this);
+  }
 
-  static findById(homeId, callback) {}
-  static deleteById(homeId, callback) {}
+  static getFavourites() {
+    const db = getDB();
+
+    return db.collection("favourites").find().toArray();
+  }
+
+  static deleteFavourite(homeId) {
+    const db = getDB();
+
+    return db.collection("favourites").deleteOne({
+      homeId: new ObjectId(homeId),
+    });
+  }
 };

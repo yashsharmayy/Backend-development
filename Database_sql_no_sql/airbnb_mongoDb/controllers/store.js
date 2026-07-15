@@ -12,50 +12,7 @@ exports.getHomepage = (req, res, next) => {
     });
   });
 };
-exports.getFavpage = (req, res) => {
-  Fav.fetchAll((homes) => {
-    res.render("store/favourite-list", {
-      title: "Favourite List",
-      homes: homes,
-    });
-  });
-};
 
-exports.postFavpage = (req, res) => {
-  const homeId = req.body.id;
-
-  Home.findById(homeId, (home) => {
-    if (!home) {
-      return res.redirect("/homeList/homeCard");
-    }
-
-    const fav = new Fav(
-      home.ownerName,
-      home.homeName,
-      home.price,
-      home.rating,
-      home.location,
-      home.photo,
-      home.description,
-    );
-
-    fav.id = home._id;
-
-    fav.save();
-
-    res.redirect("/homeList/favourite-list");
-  });
-};
-
-exports.postremoveFavpage = (req, res) => {
-  const homeId = req.params.homeId;
-  Fav.deleteById(homeId, (err) => {
-    if (err) {
-      console.log("error in remove fav");
-    }
-    res.redirect("/homeList/favourite-list");
-  });
-};
 exports.getBookpage = (req, res) => {
   res.render("store/booking", {
     title: "Bookinngs",

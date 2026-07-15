@@ -12,6 +12,7 @@ const { get404 } = require("./controllers/host");
 const { error } = require("console");
 const { mongoConnect } = require("../airbnb_mongoDb/utils/databaseUtil");
 const { callbackify } = require("util");
+const FavRouter = require("./routes/FavRouter");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(express.urlencoded());
 app.use(userRouter);
 app.use("/host", hostRouter);
 app.use("/homeList", StoreRouter);
+app.use(FavRouter);
 
 app.use(get404);
 const PORT = 3001;
