@@ -8,7 +8,7 @@ exports.postAddToFavourite = (req, res, next) => {
   favourite
     .save()
     .then(() => {
-      res.redirect("/favourites");
+      res.redirect("/homeList/favourites");
     })
     .catch((err) => {
       console.log(err);
@@ -17,10 +17,10 @@ exports.postAddToFavourite = (req, res, next) => {
 
 exports.getFavouritePage = (req, res, next) => {
   Favourite.getFavourites()
-    .then((favourites) => {
+    .then((homes) => {
       res.render("store/favourite-list", {
-        favourites: favourites,
-        title: "My Favourites",
+        title: "My Favourite Homes",
+        homes: homes,
       });
     })
     .catch((err) => {
@@ -28,14 +28,13 @@ exports.getFavouritePage = (req, res, next) => {
     });
 };
 exports.postRemoveFavourite = (req, res, next) => {
-  const { homeId } = req.body;
+  const homeId = req.body.homeId;
 
-  Favourite.deleteById(homeId)
+  Favourite.deleteFavourite(homeId)
     .then(() => {
-      res.redirect("/favourites");
+      res.redirect("/homeList/favourites");
     })
     .catch((err) => {
       console.log(err);
-      next(err);
     });
 };

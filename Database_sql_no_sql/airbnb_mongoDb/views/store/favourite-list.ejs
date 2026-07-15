@@ -6,7 +6,6 @@
 
 <div class="max-w-7xl mx-auto px-6 py-10">
 
-    <!-- Header -->
     <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-5">
 
         <div>
@@ -28,13 +27,11 @@
 
     </div>
 
-    <% if(homes.length === 0){ %>
+    <% if (!homes || homes.length === 0) { %>
 
         <div class="bg-white rounded-3xl shadow-lg p-16 text-center">
 
-            <div class="text-7xl mb-5">
-                💔
-            </div>
+            <div class="text-7xl mb-5">💔</div>
 
             <h2 class="text-3xl font-bold text-gray-700">
                 No Favourite Homes
@@ -59,96 +56,66 @@
 
         <% homes.forEach(home => { %>
 
-        <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition duration-300">
+        <div class="bg-white rounded-3xl overflow-hidden shadow-lg">
 
-            <!-- Image -->
-            <div class="relative">
+            <img
+                src="<%= home.photo %>"
+                alt="<%= home.homeName %>"
+                class="w-full h-60 object-cover"
+            >
 
-                <img
-                    src="<%= 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700' %>"
-                    alt="<%= home.homeName %>"
-                    class="w-full h-60 object-cover"
-                >
-
-                <div class="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow font-semibold">
-                    ⭐ <%= home.rating %>
-                </div>
-
-                <div class="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full shadow">
-                    ❤️ Favourite
-                </div>
-
-            </div>
-
-            <!-- Content -->
             <div class="p-6">
 
-                <div class="flex justify-between items-start">
+                <h2 class="text-xl font-bold">
+                    <%= home.homeName %>
+                </h2>
 
-                    <div>
-                        <h2 class="text-xl font-bold text-gray-800">
-                            <%= home.homeName %>
-                        </h2>
+                <p class="text-gray-500">
+                    👤 <%= home.ownerName %>
+                </p>
 
-                        <p class="text-gray-500 text-sm mt-1">
-                            👤 <%= home.ownerName %>
-                        </p>
-                    </div>
-
-                    <div class="text-right">
-
-                        <p class="text-2xl font-bold text-green-600">
-                            ₹<%= home.price %>
-                        </p>
-
-                        <span class="text-xs text-gray-500">
-                            / night
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <div class="mt-4 text-gray-600">
+                <p class="text-gray-600 mt-2">
                     📍 <%= home.location %>
-                </div>
+                </p>
 
-                <!-- Buttons -->
-                <div class="grid grid-cols-2 gap-3 mt-6">
+                <p class="text-green-600 text-xl font-bold mt-2">
+                    ₹<%= home.price %>
+                </p>
+
+                <p class="mt-2">
+                    ⭐ <%= home.rating %>
+                </p>
+
+                <div class="flex gap-3 mt-5">
 
                     <a
                         href="/homeList/home/<%= home._id %>"
-                        class="text-center bg-gray-900 hover:bg-black text-white py-3 rounded-xl font-semibold transition"
+                        class="bg-black text-white px-4 py-2 rounded-lg"
                     >
-                        View Details
+                        Details
                     </a>
 
                     <a
                         href="/homeList/booking"
-                        class="text-center bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg"
                     >
-                        Book Now
+                        Book
                     </a>
 
                 </div>
 
-                <!-- Remove Favourite -->
-                <form
-                    action="/homeList/favourite-list/delete/<%=home._id%>"
-                    method="POST"
-                    class="mt-4"
-                >
+                <form action="/homeList/favourites/delete" method="POST" class="mt-4">
 
                     <input
                         type="hidden"
-                        name="id"
+                        name="homeId"
                         value="<%= home._id %>"
                     >
 
                     <button
-                        class="w-full bg-red-100 hover:bg-red-500 hover:text-white text-red-600 py-3 rounded-xl font-semibold transition"
+                        class="w-full bg-red-500 text-white py-2 rounded-lg"
                     >
-                        🗑 Remove from Favourite
+                        Remove Favourite
                     </button>
 
                 </form>

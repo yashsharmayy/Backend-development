@@ -15,7 +15,27 @@ module.exports = class Favourite {
   static getFavourites() {
     const db = getDB();
 
-    return db.collection("favourites").find().toArray();
+    return db
+      .collection("favourites")
+      .aggregate([
+        {
+          $lookup: {
+            from: "homes",
+            localField: "homeId",
+            foreignField: "_id",
+            as: "home",
+          },
+        },
+        {
+          $unwind: "$home",
+        },
+        {
+          $replaceRoot: {
+            newRoot: "$home",
+          },
+        },
+      ])
+      .toArray();
   }
 
   static deleteFavourite(homeId) {

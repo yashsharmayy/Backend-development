@@ -25,7 +25,7 @@ app.use(express.urlencoded());
 app.use(userRouter);
 app.use("/host", hostRouter);
 app.use("/homeList", StoreRouter);
-app.use(FavRouter);
+app.use("/homeList", FavRouter);
 
 app.use(get404);
 const PORT = 3001;
