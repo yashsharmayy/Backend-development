@@ -13,6 +13,7 @@ const { error } = require("console");
 const { mongoConnect } = require("../airbnb_mongoDb/utils/databaseUtil");
 const { callbackify } = require("util");
 const FavRouter = require("./routes/FavRouter");
+const { default: mongoose } = require("mongoose");
 
 const app = express();
 
@@ -29,8 +30,18 @@ app.use("/homeList", FavRouter);
 
 app.use(get404);
 const PORT = 3001;
-mongoConnect(() => {
-  app.listen(PORT, () => {
-    console.log(`server running on http://localhost:${PORT}`);
+const DB_path =
+  "mongodb://yashsharmayy:yashsharmayy@ac-adtdode-shard-00-00.eyklnrd.mongodb.net:27017,ac-adtdode-shard-00-01.eyklnrd.mongodb.net:27017,ac-adtdode-shard-00-02.eyklnrd.mongodb.net:27017/?ssl=true&replicaSet=atlas-n0f7ai-shard-0&authSource=admin&appName=learner";
+
+mongoose
+  .connect(DB_path)
+  .then(() => {
+    console.log();
+
+    app.listen(PORT, () => {
+      console.log(`server running on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log("error while connecting to Mongo", err);
   });
-});
