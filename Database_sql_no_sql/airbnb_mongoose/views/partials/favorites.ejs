@@ -1,0 +1,15 @@
+<form
+  style="margin: 4px"
+  class="m-6 justify-center text-center p-4"
+  action="/homeList/favourites"
+  method="POST"
+  class="absolute top-3 left-3"
+>
+  <button
+    type="submit"
+    class="w-10 h-10 m-4 bg-red-500 px-4 py-2 font-bold hover:bg-white rounded-full flex items-center justify-center shadow-md transition duration-200 hover:scale-110"
+  >
+    ❤️ Add to Fav
+  </button>
+  <input type="hidden" name="id" value="<%= home._id %>" />
+</form>
