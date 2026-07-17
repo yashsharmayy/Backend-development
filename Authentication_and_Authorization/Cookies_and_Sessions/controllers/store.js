@@ -1,6 +1,5 @@
 //404
 
-const Fav = require("../models/favourites");
 const Home = require("../models/home");
 const { registrationForm } = require("./host");
 
