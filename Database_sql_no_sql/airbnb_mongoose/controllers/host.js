@@ -38,7 +38,7 @@ exports.AdminHomeListrouter = (req, res) => {
   // const { ownerName, homeName, price, rating, location, photo } = req.body;
   // const home = new Home(ownerName, homeName, price, rating, location, photo);
   // home.save();
-  Home.fetchAll().then((homes) => {
+  Home.find().then((homes) => {
     res.render("host/admin-home-list", {
       title: "Admin home details",
       homes: homes,
@@ -65,26 +65,19 @@ exports.geteditpage = (req, res, next) => {
 exports.posteditpage = (req, res, next) => {
   const id = req.params.homeId;
 
-  const { ownerName, homeName, price, rating, location, photo, description } =
-    req.body;
+  Home.findById(id)
+    .then((home) => {
+      home.ownerName = req.body.ownerName;
+      home.homeName = req.body.homeName;
+      home.price = req.body.price;
+      home.rating = req.body.rating;
+      home.location = req.body.location;
+      home.photo = req.body.photo;
+      home.description = req.body.description;
 
-  const home = new Home(
-    ownerName,
-    homeName,
-    price,
-    rating,
-    location,
-    photo,
-    description,
-  );
-
-  home._id = id;
-
-  home
-    .save()
-    .then((result) => {
-      console.log("home save successfuly", result);
-
+      return home.save();
+    })
+    .then(() => {
       res.redirect("/host/admin-home-list");
     })
     .catch((err) => {
@@ -95,7 +88,7 @@ exports.posteditpage = (req, res, next) => {
 exports.postdeletepage = (req, res, next) => {
   const homeId = req.params.homeId;
   console.log(homeId, "deleted");
-  Home.deleteById(homeId)
+  Home.findByIdAndDelete(homeId)
     .then((homes) => {
       res.redirect("/host/admin-home-list");
     })

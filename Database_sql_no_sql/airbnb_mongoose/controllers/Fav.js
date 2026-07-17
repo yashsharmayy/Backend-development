@@ -1,9 +1,9 @@
 const Favourite = require("../models/favourites");
 
 exports.postAddToFavourite = (req, res, next) => {
-  const homeId = req.body.id;
-
-  const favourite = new Favourite(homeId);
+  const favourite = new Favourite({
+    homeId: req.body.id,
+  });
 
   favourite
     .save()
@@ -16,7 +16,8 @@ exports.postAddToFavourite = (req, res, next) => {
 };
 
 exports.getFavouritePage = (req, res, next) => {
-  Favourite.getFavourites()
+  Favourite.find()
+    .populate("HomeId")
     .then((homes) => {
       res.render("store/favourite-list", {
         title: "My Favourite Homes",
@@ -28,9 +29,9 @@ exports.getFavouritePage = (req, res, next) => {
     });
 };
 exports.postRemoveFavourite = (req, res, next) => {
-  const homeId = req.body.homeId;
-
-  Favourite.deleteFavourite(homeId)
+  Favourite.deleteOne({
+    homeId: req.body.homeId,
+  })
     .then(() => {
       res.redirect("/homeList/favourites");
     })

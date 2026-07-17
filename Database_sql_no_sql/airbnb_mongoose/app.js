@@ -10,7 +10,6 @@ const StoreRouter = require("./routes/storeRouter");
 const rootDir = require("./utils/pathUtil");
 const { get404 } = require("./controllers/host");
 const { error } = require("console");
-const { mongoConnect } = require("../airbnb_mongoDb/utils/databaseUtil");
 const { callbackify } = require("util");
 const FavRouter = require("./routes/FavRouter");
 const { default: mongoose } = require("mongoose");

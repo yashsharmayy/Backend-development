@@ -1,48 +1,59 @@
-const { ObjectId } = require("mongodb");
-const { getDB } = require("../utils/databaseUtil");
+const mongoose = require("mongoose");
 
-module.exports = class Favourite {
-  constructor(homeId) {
-    this.homeId = new ObjectId(homeId);
-  }
+const Favschema = mongoose.Schema({
+  homeId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Home",
+    required: true,
+    unique: true,
+  },
+});
+module.exports = mongoose.model("Favourite", Favschema);
 
-  save() {
-    const db = getDB();
+// const { ObjectId } = require("mongodb");
 
-    return db.collection("favourites").insertOne(this);
-  }
+// module.exports = class Favourite {
+//   constructor(homeId) {
+//     this.homeId = new ObjectId(homeId);
+//   }
 
-  static getFavourites() {
-    const db = getDB();
+//   save() {
+//     const db = getDB();
 
-    return db
-      .collection("favourites")
-      .aggregate([
-        {
-          $lookup: {
-            from: "homes",
-            localField: "homeId",
-            foreignField: "_id",
-            as: "home",
-          },
-        },
-        {
-          $unwind: "$home",
-        },
-        {
-          $replaceRoot: {
-            newRoot: "$home",
-          },
-        },
-      ])
-      .toArray();
-  }
+//     return db.collection("favourites").insertOne(this);
+//   }
 
-  static deleteFavourite(homeId) {
-    const db = getDB();
+//   static getFavourites() {
+//     const db = getDB();
 
-    return db.collection("favourites").deleteOne({
-      homeId: new ObjectId(homeId),
-    });
-  }
-};
+//     return db
+//       .collection("favourites")
+//       .aggregate([
+//         {
+//           $lookup: {
+//             from: "homes",
+//             localField: "homeId",
+//             foreignField: "_id",
+//             as: "home",
+//           },
+//         },
+//         {
+//           $unwind: "$home",
+//         },
+//         {
+//           $replaceRoot: {
+//             newRoot: "$home",
+//           },
+//         },
+//       ])
+//       .toArray();
+//   }
+
+//   static deleteFavourite(homeId) {
+//     const db = getDB();
+
+//     return db.collection("favourites").deleteOne({
+//       homeId: new ObjectId(homeId),
+//     });
+//   }
+// };

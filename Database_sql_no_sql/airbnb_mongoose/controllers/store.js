@@ -5,7 +5,7 @@ const Home = require("../models/home");
 const { registrationForm } = require("./host");
 
 exports.getHomepage = (req, res, next) => {
-  Home.fetchAll().then((registrationForm) => {
+  Home.find().then((registrationForm) => {
     res.render("store/HomePage", {
       registrationForm: registrationForm,
       title: "airbnb home",
@@ -48,7 +48,7 @@ exports.postStoreRouter = (req, res) => {
   const { ownerName, homeName, price, rating, location, photo, description } =
     req.body;
 
-  const home = new Home(
+  const home = new Home({
     ownerName,
     homeName,
     price,
@@ -56,7 +56,7 @@ exports.postStoreRouter = (req, res) => {
     location,
     photo,
     description,
-  );
+  });
   home
     .save()
     .then(() => {
@@ -67,7 +67,7 @@ exports.postStoreRouter = (req, res) => {
     });
 };
 exports.getStoreRouternav = (req, res) => {
-  Home.fetchAll().then((homes) => {
+  Home.find().then((homes) => {
     res.render("store/homeCard", {
       title: "home details",
       homes: homes,
