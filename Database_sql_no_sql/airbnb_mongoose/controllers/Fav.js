@@ -17,8 +17,10 @@ exports.postAddToFavourite = (req, res, next) => {
 
 exports.getFavouritePage = (req, res, next) => {
   Favourite.find()
-    .populate("HomeId")
-    .then((homes) => {
+    .populate("homeId")
+    .then((favourites) => {
+      const homes = favourites.map((fav) => fav.homeId);
+
       res.render("store/favourite-list", {
         title: "My Favourite Homes",
         homes: homes,
