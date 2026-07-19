@@ -1,8 +1,9 @@
-//404
-
-exports.getIndex = (req, res, next) => {
-  res.render("store/HomePage", {
-    registrationForm: registrationForm,
-    title: "airbnb home",
+exports.getIndex = (req, res) => {
+  res.render("store/Login", {
+    title: "Airbnb Home",
   });
+};
+exports.postIndex = (req, res) => {
+  console.log(req.body);
+  req.isLoggedIn = trueres.redirect("/");
 };

@@ -7,6 +7,7 @@ const express = require("express");
 const userRouter = require("./routes/userRouter");
 const hostRouter = require("./routes/hostRouter");
 const StoreRouter = require("./routes/storeRouter");
+const AuthRouter = require("./routes/AuthRouter");
 const rootDir = require("./utils/pathUtil");
 const { get404 } = require("./controllers/host");
 const { error } = require("console");
@@ -26,8 +27,10 @@ app.use(userRouter);
 app.use("/host", hostRouter);
 app.use("/homeList", StoreRouter);
 app.use("/homeList", FavRouter);
+app.use(AuthRouter);
 
 app.use(get404);
+
 const PORT = 3001;
 const DB_path =
   "mongodb://yashsharmayy:yashsharmayy@ac-adtdode-shard-00-00.eyklnrd.mongodb.net:27017,ac-adtdode-shard-00-01.eyklnrd.mongodb.net:27017,ac-adtdode-shard-00-02.eyklnrd.mongodb.net:27017/?ssl=true&replicaSet=atlas-n0f7ai-shard-0&authSource=admin&appName=learner";

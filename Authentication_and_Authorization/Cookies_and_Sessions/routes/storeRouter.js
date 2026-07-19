@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 const storeController = require("../controllers/store");
 
 const StoreRouter = express.Router();
