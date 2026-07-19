@@ -1,9 +1,12 @@
 <nav class="navbar">
   <div class="container">
+
     <a href="/" class="logo">🏠 Airbnb Clone</a>
 
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
+
+      <% if (isLoggedIn) { %>
 
       <li class="dropdown">
         <button class="drop-btn">Store ▾</button>
@@ -13,7 +16,6 @@
           <a href="/booking">My Bookings</a>
           <a href="/homeList/favourites">Favourite Homes</a>
           <a href="/reserve">Reserve Home</a>
-          <a href="/home-details">Home Details</a>
         </div>
       </li>
 
@@ -27,125 +29,160 @@
           <a href="/host/admin-home-list">Delete Home</a>
         </div>
       </li>
+
+      <% } %>
     </ul>
 
     <div class="right-menu">
+
+      <% if (isLoggedIn) { %>
+
       <a href="/homeList/favourites">❤️</a>
       <a href="/booking">📅</a>
-      <a href="/login" class="login-btn">Login</a>
+
+      <form action="/logout" method="POST">
+        <button type="submit" class="logout-btn">
+          Logout
+        </button>
+      </form>
+
+      <% } else { %>
+
+      <a href="/login" class="login-btn">
+        Login
+      </a>
+
+      <% } %>
+
     </div>
+
   </div>
 </nav>
 
-<div style="height: 70px"></div>
+<div style="height:70px;"></div>
 
 <style>
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-  }
+*{
+   
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
 
-  .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:#fff;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+    z-index:1000;
+}
 
-  .container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px;
-    height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.container{
+    max-width:1200px;
+    height:70px;
+    margin:auto;
+    padding:0 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
 
-  .logo {
-    text-decoration: none;
-    font-size: 28px;
-    font-weight: bold;
-    color: #2563eb;
-  }
+.logo{
+    text-decoration:none;
+    font-size:28px;
+    font-weight:bold;
+    color:#2563eb;
+}
 
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 35px;
-    align-items: center;
-  }
+.nav-links{
+    list-style:none;
+    display:flex;
+    gap:30px;
+    align-items:center;
+}
 
-  .nav-links li {
-    position: relative;
-    /* background: #000; */
+.nav-links li{
+    position:relative;
+}
+
+.nav-links a,
+.drop-btn{
+    text-decoration:none;
     padding: 20px;
-  }
+    color:#333;
+    font-size:16px;
+    background:none;
+    border:none;
+    cursor:pointer;
+}
 
-  .nav-links a,
-  .drop-btn {
-    text-decoration: none;
-    color: #333;
-    font-size: 17px;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
+.nav-links a:hover,
+.drop-btn:hover{
+    color:#2563eb;
+}
 
-  .nav-links a:hover,
-  .drop-btn:hover {
-    color: #2563eb;
-  }
+.dropdown-content{
+    display:none;
+    position:absolute;
+    top:50px;
+    left:0px;
+    width:220px;
+    background:#fff;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
 
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    top: 55px;
-    left: 0px;
-    width: 220px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-  }
+.dropdown-content a{
+    display:block;
+    padding:12px 16px;
+}
 
-  .dropdown-content a {
-    display: block;
-    padding: 12px 16px;
-    color: #333;
-  }
+.dropdown-content a:hover{
+    background:#f3f4f6;
+}
 
-  .dropdown-content a:hover {
-    background: #f3f4f6;
-  }
+.dropdown:hover .dropdown-content{
+    display:block;
+}
 
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
+.right-menu{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
 
-  .right-menu {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-  }
+.right-menu a{
+    text-decoration:none;
+    font-size:15px;
+}
 
-  .right-menu a {
-    text-decoration: none;
-    color: #333;
-    font-size: 20px;
-  }
+.login-btn,
+.logout-btn{
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    text-decoration:none;
+    color:#fff;
+    font-size:10px;
+    transition:.3s;
+}
 
-  .login-btn {
-    background: #2563eb;
-    color: #fff !important;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 16px !important;
-  }
+.login-btn{
+    background:#2563eb;
+}
 
-  .login-btn:hover {
-    background: #1d4ed8;
-  }
+.login-btn:hover{
+    background:#1d4ed8;
+}
+
+.logout-btn{
+    background:#ef4444;
+}
+
+.logout-btn:hover{
+    background:#dc2626;
+}
 </style>

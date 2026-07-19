@@ -8,6 +8,7 @@ exports.getHomepage = (req, res, next) => {
     res.render("store/HomePage", {
       registrationForm: registrationForm,
       title: "airbnb home",
+      isLoggedIn: req.isLoggedIn,
     });
   });
 };
@@ -15,11 +16,13 @@ exports.getHomepage = (req, res, next) => {
 exports.getBookpage = (req, res) => {
   res.render("store/booking", {
     title: "Bookinngs",
+    isLoggedIn: req.isLoggedIn,
   });
 };
 exports.getReservepage = (req, res) => {
   res.render("store/reserve", {
     title: "Bookinngs",
+    isLoggedIn: req.isLoggedIn,
   });
 };
 exports.getHomedetails = (req, res) => {
@@ -34,6 +37,7 @@ exports.getHomedetails = (req, res) => {
       res.render("store/home-details", {
         title: "home view",
         home: home,
+        isLoggedIn: req.isLoggedIn,
       });
     }
   });
@@ -41,6 +45,7 @@ exports.getHomedetails = (req, res) => {
 exports.getStoreRouter = (req, res, next) => {
   res.render("store/homeForm", {
     title: "home registration form",
+    isLoggedIn: req.isLoggedIn,
   });
 };
 exports.postStoreRouter = (req, res) => {
@@ -70,6 +75,7 @@ exports.getStoreRouternav = (req, res) => {
     res.render("store/homeCard", {
       title: "home details",
       homes: homes,
+      isLoggedIn: req.isLoggedIn,
     });
   });
 };

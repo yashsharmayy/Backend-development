@@ -23,8 +23,29 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded());
 
+app.use((req, res, next) => {
+  const cookie = req.get("cookie");
+
+  if (cookie) {
+    req.isLoggedIn = cookie.split("=")[1] === "true";
+  } else {
+    req.isLoggedIn = false;
+  }
+
+  // Make it available in all EJS files
+  res.locals.isLoggedIn = req.isLoggedIn;
+
+  next();
+});
+
 app.use(userRouter);
-app.use("/host", hostRouter);
+app.use("/host", (req, res, next) => {
+  if (req.isLoggedIn) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+});
 app.use("/homeList", StoreRouter);
 app.use("/homeList", FavRouter);
 app.use(AuthRouter);
