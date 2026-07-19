@@ -6,7 +6,8 @@ exports.getLogin = (req, res) => {
 };
 exports.postlogin = (req, res) => {
   console.log(req.body);
-  res.cookie("isLoggedIn", true);
+  req.session.isLoggedIn = true;
+  // res.cookie("isLoggedIn", true);
   // req.isLoggedIn = true;
   res.redirect("/");
 };

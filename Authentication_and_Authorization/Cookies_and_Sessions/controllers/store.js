@@ -4,6 +4,8 @@ const Home = require("../models/home");
 const { registrationForm } = require("./host");
 
 exports.getHomepage = (req, res, next) => {
+  console.log("session value : ", req.session);
+
   Home.find().then((registrationForm) => {
     res.render("store/HomePage", {
       registrationForm: registrationForm,
@@ -16,13 +18,13 @@ exports.getHomepage = (req, res, next) => {
 exports.getBookpage = (req, res) => {
   res.render("store/booking", {
     title: "Bookinngs",
-    isLoggedIn: req.isLoggedIn,
+    isLoggedIn: req.session.isLoggedIn,
   });
 };
 exports.getReservepage = (req, res) => {
   res.render("store/reserve", {
     title: "Bookinngs",
-    isLoggedIn: req.isLoggedIn,
+    isLoggedIn: req.session.isLoggedIn,
   });
 };
 exports.getHomedetails = (req, res) => {
@@ -37,7 +39,7 @@ exports.getHomedetails = (req, res) => {
       res.render("store/home-details", {
         title: "home view",
         home: home,
-        isLoggedIn: req.isLoggedIn,
+        isLoggedIn: req.session.isLoggedIn,
       });
     }
   });
@@ -45,7 +47,7 @@ exports.getHomedetails = (req, res) => {
 exports.getStoreRouter = (req, res, next) => {
   res.render("store/homeForm", {
     title: "home registration form",
-    isLoggedIn: req.isLoggedIn,
+    isLoggedIn: req.session.isLoggedIn,
   });
 };
 exports.postStoreRouter = (req, res) => {
@@ -75,7 +77,7 @@ exports.getStoreRouternav = (req, res) => {
     res.render("store/homeCard", {
       title: "home details",
       homes: homes,
-      isLoggedIn: req.isLoggedIn,
+      isLoggedIn: req.session.isLoggedIn,
     });
   });
 };

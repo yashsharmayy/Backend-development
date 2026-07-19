@@ -2,6 +2,10 @@
 const path = require("path");
 //External module
 const express = require("express");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session");
+const DB_path =
+  "mongodb://yashsharmayy:yashsharmayy@ac-adtdode-shard-00-00.eyklnrd.mongodb.net:27017,ac-adtdode-shard-00-01.eyklnrd.mongodb.net:27017,ac-adtdode-shard-00-02.eyklnrd.mongodb.net:27017/?ssl=true&replicaSet=atlas-n0f7ai-shard-0&authSource=admin&appName=learner";
 
 //local module (routes)
 const userRouter = require("./routes/userRouter");
@@ -21,7 +25,15 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "public")));
+
 app.use(express.urlencoded());
+app.use(
+  session({
+    secret: "yashsharmayy",
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
 
 app.use((req, res, next) => {
   const cookie = req.get("cookie");
@@ -53,8 +65,6 @@ app.use(AuthRouter);
 app.use(get404);
 
 const PORT = 3001;
-const DB_path =
-  "mongodb://yashsharmayy:yashsharmayy@ac-adtdode-shard-00-00.eyklnrd.mongodb.net:27017,ac-adtdode-shard-00-01.eyklnrd.mongodb.net:27017,ac-adtdode-shard-00-02.eyklnrd.mongodb.net:27017/?ssl=true&replicaSet=atlas-n0f7ai-shard-0&authSource=admin&appName=learner";
 
 mongoose
   .connect(DB_path)

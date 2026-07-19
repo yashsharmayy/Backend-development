@@ -62,7 +62,7 @@ exports.geteditpage = (req, res, next) => {
       home: home,
       title: "Edit home",
       editing: editing,
-      isLoggedIn: req.isLoggedIn,
+      isLoggedIn: req.session.isLoggedIn,
     });
   });
 };
