@@ -4,6 +4,7 @@ exports.getLogin = (req, res) => {
     isLoggedIn: req.session.isLoggedIn,
   });
 };
+
 exports.postlogin = (req, res) => {
   console.log(req.body);
   req.session.isLoggedIn = true;
