@@ -1,5 +1,5 @@
 exports.getLogin = (req, res) => {
-  res.render("store/Login", {
+  res.render("Auth/Login", {
     title: "Airbnb Home",
     isLoggedIn: req.session.isLoggedIn,
   });
@@ -23,4 +23,19 @@ exports.postlogout = (req, res) => {
   });
 
   res.redirect("/login");
+};
+
+//sign up
+
+exports.getsignup = (req, res) => {
+  res.render("Auth/signup", {
+    title: "Sign up page",
+    // isLoggedIn: req.session.isLoggedIn,
+  });
+};
+exports.postsignup = (req, res) => {
+  res.render("Auth/signup", {
+    title: "Sign up page",
+    // isLoggedIn: req.session.isLoggedIn,
+  });
 };
