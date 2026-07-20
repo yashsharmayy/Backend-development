@@ -18,7 +18,7 @@ exports.getAddhomepage = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "addHome.html"));
   res.render("host/addHome", {
     title: "registration form",
-    isLoggedIn: req.isLoggedIn,
+    isLoggedIn: req.session.isLoggedIn,
   });
 };
 
@@ -30,7 +30,7 @@ exports.postAddhomepage = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "success.html"));
   res.render("host/success", {
     title: "success msg",
-    isLoggedIn: req.isLoggedIn,
+    isLoggedIn: req.session.isLoggedIn,
   });
 };
 
@@ -44,7 +44,7 @@ exports.AdminHomeListrouter = (req, res) => {
     res.render("host/admin-home-list", {
       title: "Admin home details",
       homes: homes,
-      isLoggedIn: req.isLoggedIn,
+      isLoggedIn: req.session.isLoggedIn,
     });
   });
 };

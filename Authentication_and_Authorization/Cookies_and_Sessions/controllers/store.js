@@ -10,7 +10,7 @@ exports.getHomepage = (req, res, next) => {
     res.render("store/HomePage", {
       registrationForm: registrationForm,
       title: "airbnb home",
-      isLoggedIn: req.isLoggedIn,
+      isLoggedIn: req.session.isLoggedIn,
     });
   });
 };

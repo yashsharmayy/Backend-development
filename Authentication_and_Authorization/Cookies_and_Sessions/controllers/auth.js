@@ -1,7 +1,7 @@
 exports.getLogin = (req, res) => {
   res.render("store/Login", {
     title: "Airbnb Home",
-    isLoggedIn: req.isLoggedIn,
+    isLoggedIn: req.session.isLoggedIn,
   });
 };
 exports.postlogin = (req, res) => {
@@ -12,8 +12,15 @@ exports.postlogin = (req, res) => {
   res.redirect("/");
 };
 exports.postlogout = (req, res) => {
-  console.log(req.body);
-  res.cookie("isLoggedIn", false);
+  // console.log(req.body);
   // req.isLoggedIn = true;
+  res.cookie("isLoggedIn", false);
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+      return res.send("Error while logging out");
+    }
+  });
+
   res.redirect("/login");
 };

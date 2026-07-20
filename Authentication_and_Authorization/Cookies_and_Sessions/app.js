@@ -3,7 +3,7 @@ const path = require("path");
 //External module
 const express = require("express");
 const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
 const DB_path =
   "mongodb://yashsharmayy:yashsharmayy@ac-adtdode-shard-00-00.eyklnrd.mongodb.net:27017,ac-adtdode-shard-00-01.eyklnrd.mongodb.net:27017,ac-adtdode-shard-00-02.eyklnrd.mongodb.net:27017/?ssl=true&replicaSet=atlas-n0f7ai-shard-0&authSource=admin&appName=learner";
 
@@ -26,33 +26,38 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "public")));
 
+const store = new MongoDBStore({
+  uri: DB_path,
+  collection: "sessions",
+});
 app.use(express.urlencoded());
 app.use(
   session({
     secret: "yashsharmayy",
     resave: false,
     saveUninitialized: true,
+    store,
   }),
 );
 
-app.use((req, res, next) => {
-  const cookie = req.get("cookie");
+// app.use((req, res, next) => {
+//   const cookie = req.get("cookie");
 
-  if (cookie) {
-    req.isLoggedIn = cookie.split("=")[1] === "true";
-  } else {
-    req.isLoggedIn = false;
-  }
+//   if (cookie) {
+//     req.isLoggedIn = cookie.split("=")[1] === "true";
+//   } else {
+//     req.isLoggedIn = false;
+//   }
 
-  // Make it available in all EJS files
-  res.locals.isLoggedIn = req.isLoggedIn;
+//   // Make it available in all EJS files
+//   res.locals.isLoggedIn = req.isLoggedIn;
 
-  next();
-});
+//   next();
+// });
 
 app.use(userRouter);
 app.use("/host", (req, res, next) => {
-  if (req.isLoggedIn) {
+  if (req.session.isLoggedIn) {
     next();
   } else {
     res.redirect("/login");
