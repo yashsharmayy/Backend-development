@@ -1,5 +1,3 @@
-const Favourite = require("../models/favourites");
-
 exports.postAddToFavourite = (req, res, next) => {
   const favourite = new Favourite({
     homeId: req.body.id,
@@ -16,6 +14,7 @@ exports.postAddToFavourite = (req, res, next) => {
 };
 
 exports.getFavouritePage = (req, res, next) => {
+  req.session.user.populate("favourites").map();
   Favourite.find()
     .populate("homeId")
     .then((favourites) => {
@@ -25,7 +24,7 @@ exports.getFavouritePage = (req, res, next) => {
         title: "My Favourite Homes",
         homes: homes,
         isLoggedIn: req.session.isLoggedIn,
-        user: req.session.user,
+        user: req.user,
       });
     })
     .catch((err) => {

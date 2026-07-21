@@ -7,7 +7,7 @@ exports.get404 = (req, res, next) => {
   res.status(404).render("404", {
     title: "page 404",
     isLoggedIn: req.session.isLoggedIn,
-    user: req.session.user,
+    user: req.user,
   });
 };
 
@@ -21,7 +21,7 @@ exports.getAddhomepage = (req, res, next) => {
   res.render("host/addHome", {
     title: "registration form",
     isLoggedIn: req.session.isLoggedIn,
-    user: req.session.user,
+    user: req.user,
   });
 };
 
@@ -34,7 +34,7 @@ exports.postAddhomepage = (req, res, next) => {
   res.render("host/success", {
     title: "success msg",
     isLoggedIn: req.session.isLoggedIn,
-    user: req.session.user,
+    user: req.user,
   });
 };
 
@@ -49,7 +49,7 @@ exports.AdminHomeListrouter = (req, res) => {
       title: "Admin home details",
       homes: homes,
       isLoggedIn: req.session.isLoggedIn,
-      user: req.session.user,
+      user: req.user,
     });
   });
 };
@@ -68,7 +68,7 @@ exports.geteditpage = (req, res, next) => {
       title: "Edit home",
       editing: editing,
       isLoggedIn: req.session.isLoggedIn,
-      user: req.session.user,
+      user: req.user,
     });
   });
 };
