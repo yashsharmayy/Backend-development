@@ -3,10 +3,12 @@
 
     <a href="/" class="logo">🏠 Airbnb Clone</a>
 
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
+<ul class="nav-links">
+  <li><a href="/">Home</a></li>
 
-      <% if (isLoggedIn) { %>
+  <% if (isLoggedIn && user) { %>
+
+    <% if (user.userType === "guest") { %>
 
       <li class="dropdown">
         <button class="drop-btn">Store ▾</button>
@@ -19,23 +21,30 @@
         </div>
       </li>
 
+    <% } %>
+
+    <% if (user.userType === "host") { %>
+
       <li class="dropdown">
         <button class="drop-btn">Admin ▾</button>
 
         <div class="dropdown-content">
-          <a href="/homeList/homeForm">Add Home</a>
+          <a href="/host/add-home">Add Home</a>
           <a href="/host/admin-home-list">Home List</a>
-          <a href="/host/admin-home-list">Edit Home</a>
-          <a href="/host/admin-home-list">Delete Home</a>
         </div>
       </li>
 
-      <% } %>
-    </ul>
+    <% } %>
+
+  <% } %>
+</ul>
 
     <div class="right-menu">
 
       <% if (isLoggedIn) { %>
+
+
+
 
       <a href="/homeList/favourites">❤️</a>
       <a href="/booking">📅</a>

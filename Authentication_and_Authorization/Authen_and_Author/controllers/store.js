@@ -4,27 +4,28 @@ const Home = require("../models/home");
 const { registrationForm } = require("./host");
 
 exports.getHomepage = (req, res, next) => {
-  console.log("session value : ", req.session);
-
   Home.find().then((registrationForm) => {
     res.render("store/HomePage", {
-      registrationForm: registrationForm,
+      registrationForm,
       title: "airbnb home",
       isLoggedIn: req.session.isLoggedIn,
+      user: req.session.user,
     });
   });
 };
 
 exports.getBookpage = (req, res) => {
   res.render("store/booking", {
-    title: "Bookinngs",
+    title: "Bookings",
     isLoggedIn: req.session.isLoggedIn,
+    user: req.session.user,
   });
 };
 exports.getReservepage = (req, res) => {
   res.render("store/reserve", {
-    title: "Bookinngs",
+    title: "Reserve",
     isLoggedIn: req.session.isLoggedIn,
+    user: req.session.user,
   });
 };
 exports.getHomedetails = (req, res) => {
@@ -40,6 +41,7 @@ exports.getHomedetails = (req, res) => {
         title: "home view",
         home: home,
         isLoggedIn: req.session.isLoggedIn,
+        user: req.session.user,
       });
     }
   });
@@ -48,6 +50,7 @@ exports.getStoreRouter = (req, res, next) => {
   res.render("store/homeForm", {
     title: "home registration form",
     isLoggedIn: req.session.isLoggedIn,
+    user: req.session.user,
   });
 };
 exports.postStoreRouter = (req, res) => {
@@ -78,6 +81,7 @@ exports.getStoreRouternav = (req, res) => {
       title: "home details",
       homes: homes,
       isLoggedIn: req.session.isLoggedIn,
+      user: req.session.user,
     });
   });
 };

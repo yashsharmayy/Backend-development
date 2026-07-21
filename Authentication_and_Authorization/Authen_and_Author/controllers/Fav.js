@@ -24,7 +24,8 @@ exports.getFavouritePage = (req, res, next) => {
       res.render("store/favourite-list", {
         title: "My Favourite Homes",
         homes: homes,
-        isLoggedIn: req.isLoggedIn,
+        isLoggedIn: req.session.isLoggedIn,
+        user: req.session.user,
       });
     })
     .catch((err) => {

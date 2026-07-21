@@ -1,32 +1,67 @@
 const { check, body, validationResult } = require("express-validator");
-const User = require("../models/user");
+const user = require("../models/user");
+const bcrypt = require("bcrypt");
 
 exports.getLogin = (req, res) => {
   res.render("Auth/Login", {
-    title: "Airbnb Home",
-    isLoggedIn: req.session.isLoggedIn,
+    title: "Login",
+    isLoggedIn: req.session.isLoggedIn || false,
+    errors: [],
+    oldInput: {},
+    user: {},
   });
 };
 
 exports.postlogin = (req, res) => {
-  console.log(req.body);
-  req.session.isLoggedIn = true;
-  // res.cookie("isLoggedIn", true);
-  // req.isLoggedIn = true;
-  res.redirect("/");
+  const { email, password } = req.body;
+
+  user
+    .findOne({ email })
+    .then((user) => {
+      if (!user) {
+        return res.status(422).render("Auth/Login", {
+          title: "Login",
+          isLoggedIn: false,
+          errors: [{ msg: "user does not exist." }],
+          oldInput: { email },
+          user: {},
+        });
+      }
+
+      return bcrypt.compare(password, user.password).then((doMatch) => {
+        if (!doMatch) {
+          return res.status(422).render("Auth/Login", {
+            title: "Login",
+            isLoggedIn: false,
+            errors: [{ msg: "Invalid password." }],
+            oldInput: { email },
+          });
+        }
+
+        req.session.isLoggedIn = true;
+        req.session.user = user._id;
+        req.session.save((err) => {
+          if (err) {
+            console.log(err);
+          }
+          res.redirect("/");
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Something went wrong");
+    });
 };
 exports.postlogout = (req, res) => {
-  // console.log(req.body);
-  // req.isLoggedIn = true;
-  res.cookie("isLoggedIn", false);
   req.session.destroy((err) => {
     if (err) {
       console.log(err);
       return res.send("Error while logging out");
     }
-  });
 
-  res.redirect("/login");
+    res.redirect("/login");
+  });
 };
 
 //sign up
@@ -49,7 +84,7 @@ exports.postsignup = [
     .matches(/^[A-Za-z\s]+$/)
     .withMessage("First name can contain only letters."),
 
-  // Last Name
+  // Last Name  Yash@1234
   check("lastName")
     .trim()
     .isLength({ min: 2 })
@@ -91,7 +126,7 @@ exports.postsignup = [
   // Controller
   (req, res) => {
     const errors = validationResult(req);
-
+    console.log(errors.array());
     if (!errors.isEmpty()) {
       return res.status(422).render("Auth/signup", {
         title: "Sign Up",
@@ -100,24 +135,25 @@ exports.postsignup = [
         isLoggedIn: false,
       });
     }
-
     const { firstName, lastName, email, password } = req.body;
 
-    const newUser = new User({
-      firstName,
-      lastName,
-      email,
-      password,
-    });
-
-    newUser
-      .save()
+    bcrypt
+      .hash(password, 12)
+      .then((hashedPassword) => {
+        const user = new user({
+          firstName,
+          lastName,
+          email,
+          password: hashedPassword,
+        });
+        return user.save();
+      })
       .then(() => {
         res.redirect("/login");
       })
       .catch((err) => {
         console.log(err);
-        res.send("Something went wrong");
+        res.redirect("/");
       });
   },
 ];
