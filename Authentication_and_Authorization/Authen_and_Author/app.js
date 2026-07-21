@@ -39,7 +39,10 @@ app.use(
     store,
   }),
 );
-
+app.use((req, res, next) => {
+  res.locals.isLoggedIn = req.session.isLoggedIn || false;
+  next();
+});
 // app.use((req, res, next) => {
 //   const cookie = req.get("cookie");
 
