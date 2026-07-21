@@ -1,3 +1,4 @@
+
 <nav class="navbar">
   <div class="container">
 
@@ -6,8 +7,7 @@
 <ul class="nav-links">
   <li><a href="/">Home</a></li>
 
-  <% if (isLoggedIn && user) { %>
-
+<% if (isLoggedIn && typeof user !== 'undefined' && user) { %>
     <% if (user.userType === "guest") { %>
 
       <li class="dropdown">

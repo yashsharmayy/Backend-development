@@ -39,7 +39,7 @@ exports.postlogin = (req, res) => {
         }
 
         req.session.isLoggedIn = true;
-        req.session.user = user._id;
+        req.session.user = user.id;
         req.session.save((err) => {
           if (err) {
             console.log(err);
