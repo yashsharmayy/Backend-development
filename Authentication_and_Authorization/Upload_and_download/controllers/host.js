@@ -97,7 +97,7 @@ exports.posteditpage = (req, res, next) => {
       return home.save();
     })
     .then(() => {
-      res.redirect("/homels/homeCard");
+      res.redirect("/homeList/homeCard");
     })
     .catch((err) => {
       console.log(err);
