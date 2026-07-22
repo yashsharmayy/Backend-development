@@ -115,7 +115,7 @@ export default function App() {
       <Navbar />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8  space-y-6">
         {/* Metric Summary Cards */}
         <Stats
           totalTasks={totalCount}
