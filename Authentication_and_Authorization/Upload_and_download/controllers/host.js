@@ -1,7 +1,6 @@
-//404
-
 const Home = require("../models/home");
 
+//404
 exports.get404 = (req, res, next) => {
   // res.status(404).sendFile(path.join(rootDir, "views", "404.html"));
   res.status(404).render("404", {
@@ -69,13 +68,21 @@ exports.posteditpage = (req, res, next) => {
 
   Home.findById(id)
     .then((home) => {
+      if (!home) {
+        return res.redirect("/host/admin-home-list");
+      }
+
       home.ownerName = req.body.ownerName;
       home.homeName = req.body.homeName;
       home.price = req.body.price;
       home.rating = req.body.rating;
       home.location = req.body.location;
-      home.photo = req.body.photo;
       home.description = req.body.description;
+
+      // Update image only if a new one was uploaded
+      if (req.file) {
+        home.photo = req.file.filename;
+      }
 
       return home.save();
     })

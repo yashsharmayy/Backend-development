@@ -31,7 +31,6 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
-
 //img handling
 
 const randomstring = (length) => {
@@ -54,9 +53,9 @@ const storage = multer.diskStorage({
 });
 const fileFilter = (req, file, cb) => {
   if (
-    file.mimetype === "img/png" ||
-    file.mimetype === "img/jpg" ||
-    file.mimetype === "img/jpeg"
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
   ) {
     cb(null, true);
   } else {
