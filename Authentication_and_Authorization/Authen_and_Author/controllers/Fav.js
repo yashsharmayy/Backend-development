@@ -1,44 +1,40 @@
-exports.postAddToFavourite = (req, res, next) => {
-  const favourite = new Favourite({
-    homeId: req.body.id,
+const User = require("../models/user");
+
+exports.getFavouritePage = async (req, res, next) => {
+  const userId = req.session.user;
+  const currentUser = await User.findById(userId).populate("favourites");
+
+  console.log("Current User:", currentUser);
+
+  res.render("store/favourite-list", {
+    title: "My Favourite Homes",
+    homes: currentUser.favourites,
+    isLoggedIn: req.session.isLoggedIn,
+    user: req.user,
   });
-
-  favourite
-    .save()
-    .then(() => {
-      res.redirect("/homeList/favourites");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+};
+exports.postAddToFavourite = async (req, res, next) => {
+  const homeId = req.body.id;
+  const userId = req.session.user;
+  const user = await User.findById(userId);
+  if (!user.favourites.includes(homeId)) {
+    user.favourites.push(homeId);
+    await user.save();
+  }
+  res.redirect("/homeList/favourites");
 };
 
-exports.getFavouritePage = (req, res, next) => {
-  req.session.user.populate("favourites").map();
-  Favourite.find()
-    .populate("homeId")
-    .then((favourites) => {
-      const homes = favourites.map((fav) => fav.homeId);
+exports.postRemoveFavourite = async (req, res, next) => {
+  try {
+    const homeId = req.body.homeId;
 
-      res.render("store/favourite-list", {
-        title: "My Favourite Homes",
-        homes: homes,
-        isLoggedIn: req.session.isLoggedIn,
-        user: req.user,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
+    await User.findByIdAndUpdate(req.session.user, {
+      $pull: { favourites: homeId },
     });
-};
-exports.postRemoveFavourite = (req, res, next) => {
-  Favourite.deleteOne({
-    homeId: req.body.homeId,
-  })
-    .then(() => {
-      res.redirect("/homeList/favourites");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+
+    res.redirect("/homeList/favourites");
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
 };
