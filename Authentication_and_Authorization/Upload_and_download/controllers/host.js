@@ -1,5 +1,6 @@
 const Home = require("../models/home");
-
+const fs = require("fs");
+const path = require("path");
 //404
 exports.get404 = (req, res, next) => {
   // res.status(404).sendFile(path.join(rootDir, "views", "404.html"));
@@ -81,13 +82,22 @@ exports.posteditpage = (req, res, next) => {
 
       // Update image only if a new one was uploaded
       if (req.file) {
+        if (home.photo) {
+          fs.unlink(
+            path.join(__dirname, "..", "public", "uploads", home.photo),
+            (err) => {
+              if (err) console.log(err);
+            },
+          );
+        }
+
         home.photo = req.file.filename;
       }
 
       return home.save();
     })
     .then(() => {
-      res.redirect("/host/admin-home-list");
+      res.redirect("/homels/homeCard");
     })
     .catch((err) => {
       console.log(err);

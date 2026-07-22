@@ -54,7 +54,7 @@ exports.getStoreRouter = (req, res, next) => {
   });
 };
 exports.postStoreRouter = (req, res) => {
-  const { ownerName, homeName, price, rating, location, photo, description } =
+  const { ownerName, homeName, price, rating, location, description } =
     req.body;
 
   const home = new Home({
@@ -63,9 +63,10 @@ exports.postStoreRouter = (req, res) => {
     price,
     rating,
     location,
-    photo,
     description,
+    photo: req.file ? req.file.filename : "",
   });
+
   home
     .save()
     .then(() => {
