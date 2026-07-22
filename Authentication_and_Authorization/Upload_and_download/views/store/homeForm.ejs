@@ -43,6 +43,7 @@
                 action="/homeList/homeCard"
                 method="POST"
                 class="space-y-6"
+                enctype="multipart/form-data"
             >
 
                 <!-- Owner -->
@@ -135,10 +136,11 @@
                     <input
                         type="file"
                         name="photo"
-                        accept="image/*"
+                         accept="image/*"
                         class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     >
                 </div>
+                
                 <!-- Description -->
                     <div>
                         <label class="block font-semibold mb-2">

@@ -16,8 +16,6 @@ exports.get404 = (req, res, next) => {
 const registrationForm = [];
 
 exports.getAddhomepage = (req, res, next) => {
-  // res.sendFile(path.join(__dirname, "../", "pages", "addHome.html"));
-  // res.sendFile(path.join(rootDir, "views", "addHome.html"));
   res.render("host/addHome", {
     title: "registration form",
     isLoggedIn: req.session.isLoggedIn,
@@ -28,9 +26,6 @@ exports.getAddhomepage = (req, res, next) => {
 exports.postAddhomepage = (req, res, next) => {
   console.log("Home registration successfuly", req.body, req.body.name);
   registrationForm.push({ userName: req.body.name });
-
-  // res.sendFile(path.join(__dirname, "../", "pages", "success.html"));
-  // res.sendFile(path.join(rootDir, "views", "success.html"));
   res.render("host/success", {
     title: "success msg",
     isLoggedIn: req.session.isLoggedIn,
@@ -41,9 +36,6 @@ exports.postAddhomepage = (req, res, next) => {
 //homeList router
 
 exports.AdminHomeListrouter = (req, res) => {
-  // const { ownerName, homeName, price, rating, location, photo } = req.body;
-  // const home = new Home(ownerName, homeName, price, rating, location, photo);
-  // home.save();
   Home.find().then((homes) => {
     res.render("host/admin-home-list", {
       title: "Admin home details",

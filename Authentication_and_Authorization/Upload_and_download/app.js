@@ -6,6 +6,7 @@ const express = require("express");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const mongoose = require("mongoose");
+const multer = require("multer");
 
 const User = require("./models/user");
 
@@ -27,8 +28,48 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // Static files
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
+
+//img handling
+
+const randomstring = (length) => {
+  const character = "abcdefghijklmnopqrstuvwxyz";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += character.charAt(Math.floor(Math.random() * character.length));
+  }
+  return result;
+};
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/uploads/");
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname); // .jpg, .png
+    cb(null, randomstring(20) + ext);
+  },
+});
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "img/png" ||
+    file.mimetype === "img/jpg" ||
+    file.mimetype === "img/jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+app.use(multer({ storage, fileFilter }).single("photo"));
+// const upload = multer({
+//   dest: "public/uploads/",
+// });
+
+// app.use(upload.single("photo"));
 
 // Session Store
 const store = new MongoDBStore({
