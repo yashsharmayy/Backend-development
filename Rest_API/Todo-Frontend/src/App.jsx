@@ -1,183 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from './components/Navbar';
-import Stats from './components/Stats';
-import TodoForm from './components/TodoForm';
-import SearchBar from './components/SearchBar';
-import FilterBar from './components/FilterBar';
-import TodoList from './components/TodoList';
-import ClearConfirmModal from './components/ClearConfirmModal';
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import TodoForm from "./components/TodoForm";
+import TodoList from "./components/TodoList";
 
-const LOCAL_STORAGE_KEY = 'taskflow_todos_data_v1';
+function App() {
+  const [todos, setTodos] = useState([]);
 
-// Initial sample data if local storage is empty
-const INITIAL_TODOS = [
-  {
-    id: '1',
-    text: 'Welcome to TaskFlow! Try clicking to mark this task complete.',
-    completed: true,
-    priority: 'low',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: '2',
-    text: 'Add your custom tasks using the input field above',
-    completed: false,
-    priority: 'high',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: '3',
-    text: 'Use real-time search and filter tabs to organize your day',
-    completed: false,
-    priority: 'medium',
-    createdAt: new Date().toISOString()
-  }
-];
-
-export default function App() {
-  // Load initial todos from LocalStorage
-  const [todos, setTodos] = useState(() => {
-    try {
-      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
-        }
-      }
-    } catch (err) {
-      console.error('Failed to load tasks from local storage:', err);
-    }
-    return INITIAL_TODOS;
-  });
-
-  const [activeFilter, setActiveFilter] = useState('all'); // 'all' | 'active' | 'completed'
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isClearModalOpen, setIsClearModalOpen] = useState(false);
-
-  // Auto-save todos to LocalStorage
-  useEffect(() => {
-    try {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
-    } catch (err) {
-      console.error('Failed to save tasks to local storage:', err);
-    }
-  }, [todos]);
-
-  // Derived counts
-  const totalCount = todos.length;
-  const completedCount = todos.filter((t) => t.completed).length;
-  const activeCount = totalCount - completedCount;
-
-  // Add new todo
-  const handleAddTodo = (text, priority) => {
+  const addTodo = (text) => {
     const newTodo = {
-      id: Date.now().toString() + Math.random().toString(36).substring(2, 6),
+      _id: Date.now(),
       text,
-      completed: false,
-      priority: priority || 'medium',
-      createdAt: new Date().toISOString()
     };
-    setTodos((prev) => [newTodo, ...prev]);
-  };
 
-  // Toggle todo completed state
-  const handleToggleTodo = (id) => {
-    setTodos((prev) =>
-      prev.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
-  };
-
-  // Delete single todo
-  const handleDeleteTodo = (id) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
-  };
-
-  // Edit todo text & priority
-  const handleEditTodo = (id, newText, newPriority) => {
-    setTodos((prev) =>
-      prev.map((todo) =>
-        todo.id === id ? { ...todo, text: newText, priority: newPriority } : todo
-      )
-    );
-  };
-
-  // Bulk clear completed todos
-  const handleConfirmClearCompleted = () => {
-    setTodos((prev) => prev.filter((todo) => !todo.completed));
+    setTodos([newTodo, ...todos]);
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-linear-to-br from-indigo-950 via-slate-900 to-emerald-950 text-slate-100 font-sans selection:bg-emerald-500 selection:text-slate-950">
-      {/* Header Bar */}
+    <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-gray-900">
+
       <Navbar />
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8  space-y-6">
-        {/* Metric Summary Cards */}
-        <Stats
-          totalTasks={totalCount}
-          completedTasks={completedCount}
-          activeTasks={activeCount}
-        />
+      <div className="max-w-3xl mx-auto px-5 py-10">
 
-        {/* Task Input Form */}
-        <section className="space-y-2">
-          <TodoForm onAddTodo={handleAddTodo} />
-        </section>
+        <div className="bg-slate-900/70 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-slate-700">
 
-        {/* Controls Section: Search & Filter */}
-        <section className="space-y-3">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
-            <div className="md:col-span-5">
-              <SearchBar
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-              />
-            </div>
-            <div className="md:col-span-7">
-              <FilterBar
-                activeFilter={activeFilter}
-                setActiveFilter={setActiveFilter}
-                totalCount={totalCount}
-                activeCount={activeCount}
-                completedCount={completedCount}
-                onClearCompleted={() => setIsClearModalOpen(true)}
-              />
-            </div>
+          <div className="mb-8">
+            <h2 className="text-4xl font-bold text-white">
+              My Tasks
+            </h2>
+
+            <p className="text-slate-400 mt-2">
+              Organize your daily work efficiently.
+            </p>
           </div>
-        </section>
 
-        {/* Task List Section */}
-        <section className="pt-2">
-          <TodoList
-            todos={todos}
-            activeFilter={activeFilter}
-            searchQuery={searchQuery}
-            onToggle={handleToggleTodo}
-            onDelete={handleDeleteTodo}
-            onEdit={handleEditTodo}
-            onResetSearch={() => setSearchQuery('')}
-          />
-        </section>
-      </main>
+          <TodoForm onAdd={addTodo} />
 
-      {/* Confirmation Modal */}
-      <ClearConfirmModal
-        isOpen={isClearModalOpen}
-        onClose={() => setIsClearModalOpen(false)}
-        onConfirm={handleConfirmClearCompleted}
-        count={completedCount}
-      />
+          <div className="mb-5">
+            <p className="text-slate-300">
+              Total Tasks:
+              <span className="ml-2 bg-blue-600 px-3 py-1 rounded-full">
+                {todos.length}
+              </span>
+            </p>
+          </div>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-white/10 bg-black/20 backdrop-blur-md py-6 text-center">
-        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400">
-          Made with React + Tailwind
-        </p>
-      </footer>
+          <TodoList todos={todos} />
+
+        </div>
+
+      </div>
     </div>
   );
 }
+
+export default App;

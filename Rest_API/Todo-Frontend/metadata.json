@@ -1,6 +1,0 @@
-{
-  "name": "Todo List",
-  "description": "A modern, responsive Todo App with real-time search, filters, statistics, and automatic local storage persistence.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

@@ -1,66 +1,44 @@
-import React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import TodoItem from './TodoItem';
-import EmptyState from './EmptyState';
+function TodoList({ todos }) {
+    if (todos.length === 0) {
+        return (
+            <div className="bg-slate-800 rounded-2xl p-10 text-center text-slate-400">
+                <h2 className="text-5xl mb-4">📋</h2>
 
-/**
- * TodoList component that filters todos based on search query and active filter,
- * and renders list items with motion enter/exit animations.
- */
-export default function TodoList({
-  todos,
-  activeFilter,
-  searchQuery,
-  onToggle,
-  onDelete,
-  onEdit,
-  onResetSearch
-}) {
-  // Filter logic
-  const filteredTodos = todos.filter((todo) => {
-    // 1. Status filter
-    if (activeFilter === 'active' && todo.completed) return false;
-    if (activeFilter === 'completed' && !todo.completed) return false;
+                <p className="text-lg">
+                    No Todos Yet
+                </p>
 
-    // 2. Search query filter
-    if (searchQuery.trim()) {
-      return todo.text.toLowerCase().includes(searchQuery.toLowerCase().trim());
+                <p className="text-sm mt-2">
+                    Add your first task above.
+                </p>
+            </div>
+        );
     }
 
-    return true;
-  });
-
-  if (filteredTodos.length === 0) {
     return (
-      <EmptyState
-        activeFilter={activeFilter}
-        searchQuery={searchQuery}
-        onResetSearch={onResetSearch}
-      />
-    );
-  }
+        <div className="space-y-4">
+            {todos.map((todo) => (
+                <div
+                    key={todo._id}
+                    className="bg-slate-800 border border-slate-700 rounded-xl p-5 flex justify-between items-center hover:scale-[1.02] transition"
+                >
+                    <div>
+                        <h3 className="text-white text-lg">
+                            {todo.text}
+                        </h3>
 
-  return (
-    <div className="space-y-2.5">
-      <AnimatePresence mode="popLayout">
-        {filteredTodos.map((todo) => (
-          <motion.div
-            key={todo.id}
-            initial={{ opacity: 0, y: 12, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95, y: -12 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            layout
-          >
-            <TodoItem
-              todo={todo}
-              onToggle={onToggle}
-              onDelete={onDelete}
-              onEdit={onEdit}
-            />
-          </motion.div>
-        ))}
-      </AnimatePresence>
-    </div>
-  );
+                        <p className="text-sm text-green-400 mt-1">
+                            Pending
+                        </p>
+                    </div>
+
+                    <button className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-white">
+                        Delete
+                    </button>
+                </div>
+            ))}
+        </div>
+    );
 }
+
+export default TodoList;
