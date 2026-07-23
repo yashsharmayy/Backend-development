@@ -1,54 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
+import {
+  addItemToServer,
+  deleteItemOnserver,
+  getItemToServer,
+} from "./service/todoApi";
 
 function App() {
   const [todos, setTodos] = useState([]);
 
-  const addTodo = (text) => {
-    const newTodo = {
-      _id: Date.now(),
-      text,
-    };
+  useEffect(() => {
+    getItemToServer().then((initialItems) => {
+      setTodos(initialItems);
+    });
+  }, []);
 
-    setTodos([newTodo, ...todos]);
+
+  const addTodo = async (text) => {
+    const date = new Date().toLocaleString();
+
+    try {
+      const serverItem = await addItemToServer(text, date);
+
+      setTodos((prevTodos) => [
+        serverItem,
+        ...prevTodos,
+      ]);
+
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+
+  const deleteTodo = async (id) => {
+    try {
+      await deleteItemOnserver(id);
+
+      setTodos((prevTodos) =>
+        prevTodos.filter((todo) => todo.id !== id)
+      );
+
+    } catch (error) {
+      console.log("Delete Error:", error);
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-gray-900">
-
       <Navbar />
 
       <div className="max-w-3xl mx-auto px-5 py-10">
+        <TodoForm onAdd={addTodo} />
 
-        <div className="bg-slate-900/70 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-slate-700">
-
-          <div className="mb-8">
-            <h2 className="text-4xl font-bold text-white">
-              My Tasks
-            </h2>
-
-            <p className="text-slate-400 mt-2">
-              Organize your daily work efficiently.
-            </p>
-          </div>
-
-          <TodoForm onAdd={addTodo} />
-
-          <div className="mb-5">
-            <p className="text-slate-300">
-              Total Tasks:
-              <span className="ml-2 bg-blue-600 px-3 py-1 rounded-full">
-                {todos.length}
-              </span>
-            </p>
-          </div>
-
-          <TodoList todos={todos} />
-
-        </div>
-
+        <TodoList
+          todos={todos}
+          onDelete={deleteTodo}
+        />
       </div>
     </div>
   );

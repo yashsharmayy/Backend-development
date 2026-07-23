@@ -1,16 +1,10 @@
-function TodoList({ todos }) {
+function TodoList({ todos, onDelete }) {
     if (todos.length === 0) {
         return (
             <div className="bg-slate-800 rounded-2xl p-10 text-center text-slate-400">
-                <h2 className="text-5xl mb-4">📋</h2>
-
-                <p className="text-lg">
-                    No Todos Yet
-                </p>
-
-                <p className="text-sm mt-2">
-                    Add your first task above.
-                </p>
+                <h2 className="text-5xl mb-4">📝</h2>
+                <p className="text-xl font-semibold">No Tasks Yet</p>
+                <p className="text-sm mt-2">Add your first task above.</p>
             </div>
         );
     }
@@ -19,22 +13,27 @@ function TodoList({ todos }) {
         <div className="space-y-4">
             {todos.map((todo) => (
                 <div
-                    key={todo._id}
-                    className="bg-slate-800 border border-slate-700 rounded-xl p-5 flex justify-between items-center hover:scale-[1.02] transition"
+                    key={todo.id}
+                    className="bg-slate-800 border border-slate-700 rounded-xl p-5 shadow-lg hover:shadow-blue-500/20 transition"
                 >
-                    <div>
-                        <h3 className="text-white text-lg">
-                            {todo.text}
-                        </h3>
+                    <div className="flex justify-between items-start">
+                        <div>
+                            <h2 className="text-xl font-semibold text-white">
+                                {todo.name}
+                            </h2>
 
-                        <p className="text-sm text-green-400 mt-1">
-                            Pending
-                        </p>
+                            <p className="text-sm text-gray-400 mt-2">
+                                📅 {todo.createdAt}
+                            </p>
+                        </div>
+
+                        <button
+                            onClick={() => onDelete(todo.id)}
+                            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+                        >
+                            Delete
+                        </button>
                     </div>
-
-                    <button className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-white">
-                        Delete
-                    </button>
                 </div>
             ))}
         </div>

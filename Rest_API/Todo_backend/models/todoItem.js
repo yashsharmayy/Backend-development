@@ -1,18 +1,20 @@
-const { Timestamp } = require("mongodb");
 const mongoose = require("mongoose");
 
-const todoItemSchema = mongoose.Schema(
+const todoItemSchema = new mongoose.Schema(
   {
     task: {
       type: String,
-      require: true,
+      required: true,
     },
-    data: Date,
+    date: Date,
     completed: {
       type: Boolean,
       default: false,
     },
   },
-  { timestamp: true },
+  {
+    timestamps: true,
+  },
 );
+
 module.exports = mongoose.model("TodoItem", todoItemSchema);
