@@ -5,13 +5,14 @@ const app = express();
 app.use(express.json());
 const notes = [];
 
+// get(recieve)
 app.get("/note", (req, res) => {
   res.status(201).json({
     message: "Note received",
     notes: notes,
   });
 });
-
+//post(send)
 app.post("/note", (req, res) => {
   console.log(req.body);
   notes.push(req.body);
@@ -22,7 +23,7 @@ app.post("/note", (req, res) => {
   });
   console.log(notes);
 });
-
+//delete
 app.delete("/note/:index", (req, res) => {
   const index = req.params.index;
   delete notes[index];
@@ -30,8 +31,20 @@ app.delete("/note/:index", (req, res) => {
     message: "not deleted successfully",
   });
 });
+//patch(upgrade)
 
+app.patch("/notes/:index", (req, res) => {
+  const index = req.params.index;
+  const name = req.body.name;
+  notes[index].name = name;
+  res.status(200).json({
+    message: "updated successfully",
+    notes: notes,
+  });
+});
 const PORT = 3000;
 app.listen(PORT, (req, res) => {
   console.log(`server is running on http://localhost:${PORT}`);
 });
+//ys4468570_db_user
+//RBE7mGVetcKsbXaz
