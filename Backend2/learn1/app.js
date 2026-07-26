@@ -1,4 +1,5 @@
 const express = require("express");
+const connectDB = require("./db/db");
 
 const app = express();
 
@@ -42,9 +43,9 @@ app.patch("/notes/:index", (req, res) => {
     notes: notes,
   });
 });
+
+connectDB();
 const PORT = 3000;
 app.listen(PORT, (req, res) => {
   console.log(`server is running on http://localhost:${PORT}`);
 });
-//ys4468570_db_user
-//RBE7mGVetcKsbXaz
