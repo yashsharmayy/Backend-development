@@ -1,9 +1,15 @@
+require("dotenv").config();
+
 const express = require("express");
 const connectDB = require("./db/db");
 const postRouter = require("./routes/postRoute");
 
 const app = express();
 app.use(express.json());
+app.use((req, res, next) => {
+  console.log("Incoming:", req.method, req.url);
+  next();
+});
 
 app.use(postRouter);
 connectDB();
