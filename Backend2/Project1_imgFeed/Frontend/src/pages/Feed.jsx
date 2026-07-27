@@ -1,21 +1,32 @@
 import React, { useState } from "react";
 import { Heart, MessageCircle, Send, Bookmark } from "lucide-react";
+import axios from "axios";
+import { useEffect } from "react";
 
 const Feed = () => {
-    const [posts] = useState([
-        {
-            _id: "1",
-            image:
-                "https://images.unsplash.com/photo-1777400589332-fbaccdfc8500?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0",
-            caption: "Beautiful scenery 🌄",
-        },
-        {
-            _id: "2",
-            image:
-                "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200",
-            caption: "Nature is the best therapy 🍃",
-        },
-    ]);
+    const [posts, setPosts] = useState([]);
+    // {
+    //     _id: "1",
+    //     image:
+    //         "https://images.unsplash.com/photo-1777400589332-fbaccdfc8500?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0",
+    //     caption: "Beautiful scenery 🌄",
+    // },
+    // {
+    //     _id: "2",
+    //     image:
+    //         "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200",
+    //     caption: "Nature is the best therapy 🍃",
+    // },
+
+    useEffect(() => {
+
+        axios.get("http://localhost:5000/posts")
+            .then((res) => {
+                setPosts(res.data.posts)
+            })
+
+    }, [])
+
 
     return (
         <div className="min-h-screen bg-gray-100 py-10">
