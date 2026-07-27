@@ -10,5 +10,6 @@ postRouter.post(
   upload.single("image"),
   postController.postCreatePost,
 );
+postRouter.get("/posts", postController.getCreatePost);
 
 module.exports = postRouter;

@@ -2,15 +2,9 @@ const uploadFile = require("../services/storgeService");
 const postModel = require("../models/postModel");
 exports.postCreatePost = async (req, res) => {
   try {
-    console.log("body:", req.body);
-    console.log("file:", req.file);
-    console.log("files:", req.files);
+    console.log(req.body);
 
-    if (!req.file) {
-      return res.status(400).json({
-        message: "No file uploaded",
-      });
-    }
+    console.log("req.file:", req.file);
 
     const result = await uploadFile(req.file.buffer);
 
@@ -18,10 +12,28 @@ exports.postCreatePost = async (req, res) => {
       image: result.url,
       caption: req.body.caption,
     });
-
-    res.json(post);
+    return res.status(201).json({
+      message: "post created successfully",
+      post: post,
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: error.message });
+    console.error("Upload Error:", error);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+exports.getCreatePost = async (req, res) => {
+  try {
+    const posts = await postModel.find();
+    return res.status(200).json({
+      message: "post fetched successfully",
+      posts: posts,
+    });
+  } catch (error) {
+    console.error("Upload Error:", error);
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
