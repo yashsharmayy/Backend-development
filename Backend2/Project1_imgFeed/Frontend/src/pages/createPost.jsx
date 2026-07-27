@@ -1,9 +1,12 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState("");
     const [caption, setCaption] = useState("");
+    const navigate = useNavigate()
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -14,7 +17,7 @@ const CreatePost = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formData = new FormData();
@@ -23,7 +26,15 @@ const CreatePost = () => {
 
         console.log("Submitting...", image, caption);
 
-        // axios.post("http://localhost:6000/create_post", formData)
+        await axios.post("http://localhost:5000/create_post", formData)
+            .then((res) => {
+                console.log(res);
+
+            }).catch(err => {
+                console.log(err, "not submited");
+
+            })
+        await navigate("/")
     };
 
     return (
