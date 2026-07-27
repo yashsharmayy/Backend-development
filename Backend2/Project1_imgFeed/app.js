@@ -8,6 +8,8 @@ const app = express();
 app.use(express.json());
 app.use((req, res, next) => {
   console.log("Incoming:", req.method, req.url);
+  console.log("Content-Type:", req.headers["content-type"]);
+
   next();
 });
 
