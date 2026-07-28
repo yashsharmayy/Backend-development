@@ -16,6 +16,7 @@ exports.registerUser = async (req, res) => {
     },
     process.env.JWT_SECRET,
   );
+  res.cookie("token", token);
 
   res.status(201).json({
     message: "user registered successfully",
