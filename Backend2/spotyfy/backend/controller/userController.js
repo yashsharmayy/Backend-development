@@ -54,3 +54,40 @@ exports.registerUser = async (req, res) => {
     console.log("user cannot created");
   }
 };
+exports.LoginUser = async (req, res) => {
+  const { userName, email, password, role = "user" } = req.body;
+
+  const user = await userModel.findOne({
+    $or: [{ userName }, { email }],
+  });
+
+  if (!user) {
+    return res.status(409).json({
+      message: "user not found",
+    });
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(409).json({
+      message: "incorrect password",
+    });
+  }
+
+  const token = jwt.sign(
+    { id: user._id, role: user.role },
+    process.env.JWT_SECRET,
+  );
+  res.cookie("token", token);
+
+  res.status(202).json({
+    message: "user login successfully",
+    user: {
+      id: user._id,
+      userName: user.userName,
+      email: user.email,
+      password: user.password,
+      role: user.role,
+    },
+  });
+};
