@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const connectDB = require("./db/db");
+const cookieParser = require("cookie-parser");
 const userRouter = require("./routes/userRouter");
 
 const app = express();

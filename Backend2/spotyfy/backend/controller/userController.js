@@ -20,10 +20,12 @@ exports.registerUser = async (req, res) => {
       });
     }
 
+    const hash = await bcrypt.hash(password, 10);
+
     const user = await userModel.create({
       userName,
       email,
-      password,
+      password: hash,
       role,
     });
 
