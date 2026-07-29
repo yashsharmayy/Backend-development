@@ -1,5 +1,6 @@
 const userModel = require("../model/user.model");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 exports.registerUser = async (req, res) => {
   try {
     const { userName, email, password, role = "user" } = req.body;
@@ -43,7 +44,13 @@ exports.registerUser = async (req, res) => {
       message: "user created successfully",
       user: {
         id: user._id,
+        userName: user.userName,
+        email: user.email,
+        password: user.password,
+        role: user.role,
       },
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log("user cannot created");
+  }
 };
