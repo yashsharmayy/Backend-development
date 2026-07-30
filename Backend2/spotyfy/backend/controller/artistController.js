@@ -52,7 +52,11 @@ exports.createAlbum = async (req, res) => {
 };
 exports.getMusic = async (req, res) => {
   try {
-    const music = await artistModel.find().populate("artist", "userName email");
+    const music = await artistModel
+      .find()
+      .skip(1)
+      .limit(12)
+      .populate("artist", "userName email");
 
     res.status(201).json({
       message: "music fetched successfully",
@@ -68,5 +72,22 @@ exports.getAlbums = async (req, res) => {
       message: "music fetched successfully",
       albums: albums,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.getAlbumById = async (req, res) => {
+  try {
+    const albumId = req.params.albumId;
+    const album = await albumModel
+      .findById(albumId)
+      .populate("artist", "username email");
+
+    res.status(201).json({
+      message: "album fetched successfully",
+      album: album,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };

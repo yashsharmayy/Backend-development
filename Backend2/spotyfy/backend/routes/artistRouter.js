@@ -21,4 +21,9 @@ artistRouter.post(
 );
 artistRouter.get("/", authMiddlware.authUser, artistController.getMusic);
 artistRouter.get("/albums", authMiddlware.authUser, artistController.getAlbums);
+artistRouter.get(
+  "/album/:albumId",
+  authMiddlware.authUser,
+  artistController.getAlbumById,
+);
 module.exports = artistRouter;
