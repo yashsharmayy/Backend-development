@@ -2,15 +2,15 @@ const artistModel = require("../model/artist.model");
 const jwt = require("jsonwebtoken");
 const uploadFile = require("../service/storage.service");
 exports.createMusic = async (req, res) => {
-  const token = req.cookie.token;
-
+  const token = req.cookies.token;
   if (!token) {
     return res.status(401).json({
       message: "unauthorized",
     });
   }
+  let decoded;
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     if (decoded.role !== "artist") {
       return res.status(401).json({
@@ -22,6 +22,8 @@ exports.createMusic = async (req, res) => {
       message: "unauthorized",
     });
   }
+
+  console.log(decoded);
 
   const { title } = req.body;
   const file = req.file;
