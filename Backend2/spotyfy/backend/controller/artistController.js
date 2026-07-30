@@ -1,30 +1,8 @@
 const artistModel = require("../model/artist.model");
+const albumModel = require("../model/album.model");
 const jwt = require("jsonwebtoken");
 const uploadFile = require("../service/storage.service");
 exports.createMusic = async (req, res) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json({
-      message: "unauthorized",
-    });
-  }
-  let decoded;
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (decoded.role !== "artist") {
-      return res.status(401).json({
-        message: "you are not an artist",
-      });
-    }
-  } catch (error) {
-    return res.status(403).json({
-      message: "unauthorized",
-    });
-  }
-
-  console.log(decoded);
-
   const { title } = req.body;
   const file = req.file;
 
@@ -33,7 +11,7 @@ exports.createMusic = async (req, res) => {
   const music = await artistModel.create({
     uri: result.url,
     title,
-    artist: decoded.id,
+    artist: req.user.id,
   });
   res.status(201).json({
     message: "Music created successfully",
@@ -44,4 +22,51 @@ exports.createMusic = async (req, res) => {
       artist: music.artist,
     },
   });
+};
+exports.createAlbum = async (req, res) => {
+  try {
+    const { title, musicID } = req.body;
+
+    const album = await albumModel.create({
+      title,
+      artist: req.user.id,
+      musics: musicID,
+    });
+
+    res.status(201).json({
+      message: "album created successfully",
+      album: {
+        id: album._id,
+        title: album.title,
+        musics: album.musics,
+        artist: album.artist,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+exports.getMusic = async (req, res) => {
+  try {
+    const music = await artistModel.find().populate("artist", "userName email");
+
+    res.status(201).json({
+      message: "music fetched successfully",
+      musics: music,
+    });
+  } catch (error) {}
+};
+
+exports.getAlbums = async (req, res) => {
+  try {
+    const albums = await albumModel.find().populate("artist", "username email");
+    res.status(201).json({
+      message: "music fetched successfully",
+      albums: albums,
+    });
+  } catch (error) {}
 };
