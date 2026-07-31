@@ -1,7 +1,21 @@
+import axios from 'axios'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Navbar = () => {
+const Navbar = ({ IsLogin, setIsLogin }) => {
+
+    const handleLogout = async () => {
+        try {
+            const res = await axios.post(
+                "http://localhost:3000/user/logout", {})
+            console.log(res.data);
+            setIsLogin(false)
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
     return (
         <div>
 
@@ -14,14 +28,27 @@ const Navbar = () => {
                     <li><a href="/album" className="text-gray-700 hover:text-blue-600">Album</a></li>
                     <li><a href="#" className="text-gray-700 hover:text-blue-600">Contact</a></li>
                 </ul>
-                <div className="flex items-center space-x-2">
-                    <Link to="/login">
-                        <button className="px-4 py-2 bg-blue-600 text-white rounded">Login</button>
-                    </Link>
-                    <Link to="/register">
-                        <button className="px-4 py-2 border border-blue-600 text-blue-600 rounded">Sign Up</button>
-                    </Link>
-                </div>
+                {
+                    IsLogin ? (<div className="flex items-center space-x-2">
+
+                        <button onClick={handleLogout} className="px-4 py-2 bg-blue-600 text-white rounded">Logout</button>
+
+
+                    </div>) : (
+
+
+                        <div className="flex items-center space-x-2">
+                            <Link to="/login">
+                                <button className="px-4 py-2 bg-blue-600 text-white rounded">Login</button>
+                            </Link>
+                            <Link to="/register">
+                                <button className="px-4 py-2 border border-blue-600 text-blue-600 rounded">Sign Up</button>
+                            </Link>
+                        </div>
+
+                    )
+
+                }
             </nav>
         </div>
     )

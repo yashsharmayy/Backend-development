@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Login = () => {
+const Login = ({ IsLogin, setIsLogin }) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
@@ -14,14 +14,20 @@ const Login = () => {
                 email, password
             })
             console.log(res);
-        } catch (error) {
-            console.log(error);
 
+            console.log(res.statusText);
+            if (res.statusText === "Accepted") {
+                setIsLogin(true)
+                await navigate("/")
+            }
+        } catch (error) {
+            console.log(error.response?.status);
+            console.log(error.response?.data);
+            alert("user not found")
         }
 
         setPassword("")
         setEmail("")
-        // await navigate("/")
 
     }
     return (

@@ -14,7 +14,7 @@ const App = () => {
   return (
     <div>
       <Router>
-        <Navbar />
+        <Navbar IsLogin={IsLogin} setIsLogin={setIsLogin} />
         <Routes>
 
           <Route path='/' element={<Home IsLogin={IsLogin} />} />

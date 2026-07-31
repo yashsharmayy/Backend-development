@@ -58,7 +58,8 @@ exports.LoginUser = async (req, res) => {
   const { userName, email, password, role = "user" } = req.body;
 
   const user = await userModel.findOne({
-    $or: [{ userName }, { email }],
+    // $or: [{ userName }, { email }],
+    email,
   });
 
   if (!user) {
