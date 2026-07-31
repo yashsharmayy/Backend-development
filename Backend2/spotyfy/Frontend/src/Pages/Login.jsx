@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const Login = ({ IsLogin, setIsLogin }) => {
@@ -7,15 +7,17 @@ const Login = ({ IsLogin, setIsLogin }) => {
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
 
+
     const handleLogin = async (e) => {
         try {
 
             const res = await axios.post("http://localhost:3000/user/login", {
                 email, password
-            })
-            console.log(res);
+            },
+                {
+                    withCredentials: true,
+                })
 
-            console.log(res.statusText);
             if (res.statusText === "Accepted") {
                 setIsLogin(true)
                 await navigate("/")
@@ -30,6 +32,9 @@ const Login = ({ IsLogin, setIsLogin }) => {
         setEmail("")
 
     }
+
+
+
     return (
         <div>
 

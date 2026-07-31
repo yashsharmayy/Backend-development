@@ -38,7 +38,11 @@ exports.registerUser = async (req, res) => {
       process.env.JWT_SECRET,
     );
 
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false, // for localhost only
+    });
 
     res.status(200).json({
       message: "user created successfully",
@@ -79,7 +83,11 @@ exports.LoginUser = async (req, res) => {
     { id: user._id, role: user.role },
     process.env.JWT_SECRET,
   );
-  res.cookie("token", token);
+  res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: false, // for localhost only
+  });
 
   res.status(202).json({
     message: "user login successfully",
@@ -93,6 +101,11 @@ exports.LoginUser = async (req, res) => {
   });
 };
 exports.Logoutuser = async (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: false,
+  });
+
   res.status(200).json({ message: "user logged out successfully" });
 };

@@ -7,7 +7,9 @@ const Navbar = ({ IsLogin, setIsLogin }) => {
     const handleLogout = async () => {
         try {
             const res = await axios.post(
-                "http://localhost:3000/user/logout", {})
+                "http://localhost:3000/user/logout", {}, {
+                withCredentials: true,
+            })
             console.log(res.data);
             setIsLogin(false)
 

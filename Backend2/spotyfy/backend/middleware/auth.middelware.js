@@ -29,7 +29,6 @@ exports.authUser = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     console.log(req.cookies);
-    console.log(req.cookies.token);
     if (!token) {
       return res.status(403).json({
         message: "user unautherized 3",

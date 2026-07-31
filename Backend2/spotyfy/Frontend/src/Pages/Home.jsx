@@ -1,130 +1,78 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from "axios";
+import { useEffect } from 'react';
 
 const Home = ({ IsLogin }) => {
 
-    const getAllMusic = async () => {
+    const [Musics, setMusics] = useState([])
 
-        try {
-            const res = await axios.get("http://localhost:3000/music");
+    useEffect(() => {
+        const getAllMusic = async () => {
 
-            console.log(res.data);
-        } catch (err) {
-            console.log(err);
-            console.log(err.response.data);
-        }
-    };
+            try {
+                const res = await axios.get("http://localhost:3000/music", {
+                    withCredentials: true,
+                });
+
+                // console.log(res.data.musics);
+                await setMusics(res.data.musics);
+
+            } catch (err) {
+                console.log(err);
+                console.log(err.response.data);
+            }
+
+        };
+
+        getAllMusic()
+
+    }, [])
+
+
+
     return (
         <div>
             {
                 IsLogin ? (
                     <div className='flex gap-6 flex-wrap p-10 m-10'>
 
-                        <div className="w-52 bg-zinc-900 rounded-xl p-4 shadow-lg hover:scale-105 transition duration-300">
-                            <img
-                                className="w-full h-40 object-cover rounded-lg"
-                                src="https://plus.unsplash.com/premium_vector-1711922642822-695731cfcb4a?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Music Cover"
-                            />
+                        {
+                            Musics.map((music) => {
+                                return (
+                                    <div key={music._id}>
 
-                            <div className="mt-3">
-                                <h2 className="text-white text-lg font-semibold truncate">
-                                    Shape of You
-                                </h2>
 
-                                <p className="text-zinc-400 text-sm">
-                                    Ed Sheeran
-                                </p>
+                                        <div className="w-52 bg-zinc-900 rounded-xl p-4 shadow-lg hover:scale-105 transition duration-300">
+                                            <img
+                                                className="w-full h-40 object-cover rounded-lg"
+                                                src="https://plus.unsplash.com/premium_vector-1711922642822-695731cfcb4a?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                                alt="Music Cover"
+                                            />
 
-                                <button className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-medium transition">
-                                    ▶ Play
-                                </button>
-                            </div>
-                        </div>
-                        <div className="w-52 bg-zinc-900 rounded-xl p-4 shadow-lg hover:scale-105 transition duration-300">
-                            <img
-                                className="w-full h-40 object-cover rounded-lg"
-                                src="https://plus.unsplash.com/premium_vector-1711922642822-695731cfcb4a?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Music Cover"
-                            />
+                                            <div className="mt-3">
+                                                <h2 className="text-white text-lg font-semibold truncate">
+                                                    {music.title}
+                                                </h2>
 
-                            <div className="mt-3">
-                                <h2 className="text-white text-lg font-semibold truncate">
-                                    Shape of You
-                                </h2>
+                                                <p className="text-zinc-400 text-sm">
+                                                    {music.artist.userName}
+                                                </p>
 
-                                <p className="text-zinc-400 text-sm">
-                                    Ed Sheeran
-                                </p>
+                                                <button className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-medium transition">
+                                                    ▶ Play
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
 
-                                <button className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-medium transition">
-                                    ▶ Play
-                                </button>
-                            </div>
-                        </div>
-                        <div className="w-52 bg-zinc-900 rounded-xl p-4 shadow-lg hover:scale-105 transition duration-300">
-                            <img
-                                className="w-full h-40 object-cover rounded-lg"
-                                src="https://plus.unsplash.com/premium_vector-1711922642822-695731cfcb4a?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Music Cover"
-                            />
 
-                            <div className="mt-3">
-                                <h2 className="text-white text-lg font-semibold truncate">
-                                    Shape of You
-                                </h2>
+                            })
+                        }
 
-                                <p className="text-zinc-400 text-sm">
-                                    Ed Sheeran
-                                </p>
-
-                                <button className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-medium transition">
-                                    ▶ Play
-                                </button>
-                            </div>
-                        </div>
-                        <div className="w-52 bg-zinc-900 rounded-xl p-4 shadow-lg hover:scale-105 transition duration-300">
-                            <img
-                                className="w-full h-40 object-cover rounded-lg"
-                                src="https://plus.unsplash.com/premium_vector-1711922642822-695731cfcb4a?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Music Cover"
-                            />
-
-                            <div className="mt-3">
-                                <h2 className="text-white text-lg font-semibold truncate">
-                                    Shape of You
-                                </h2>
-
-                                <p className="text-zinc-400 text-sm">
-                                    Ed Sheeran
-                                </p>
-
-                                <button className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-medium transition">
-                                    ▶ Play
-                                </button>
-                            </div>
-                        </div>
-                        <div className="w-52 bg-zinc-900 rounded-xl p-4 shadow-lg hover:scale-105 transition duration-300">
-                            <img
-                                className="w-full h-40 object-cover rounded-lg"
-                                src="https://plus.unsplash.com/premium_vector-1711922642822-695731cfcb4a?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Music Cover"
-                            />
-
-                            <div className="mt-3">
-                                <h2 className="text-white text-lg font-semibold truncate">
-                                    Shape of You
-                                </h2>
-
-                                <p className="text-zinc-400 text-sm">
-                                    Ed Sheeran
-                                </p>
-
-                                <button className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-medium transition">
-                                    ▶ Play
-                                </button>
-                            </div>
-                        </div>
+                        {/* <button onClick={getAllMusic} className="inline-flex items-center justify-center px-8 py-4 font-sans font-semibold tracking-wide text-white bg-blue-500 rounded-lg h-15">
+                            get music
+                        </button> */}
                     </div>
                 ) : (
                     <div>
@@ -140,9 +88,6 @@ const Home = ({ IsLogin }) => {
                 )
             }
 
-            {/* <button onClick={getAllMusic} className="inline-flex items-center justify-center px-8 py-4 font-sans font-semibold tracking-wide text-white bg-blue-500 rounded-lg h-[60px]">
-                get music
-            </button> */}
         </div>
     )
 }

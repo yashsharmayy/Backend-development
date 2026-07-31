@@ -54,7 +54,7 @@ exports.getMusic = async (req, res) => {
   try {
     const music = await artistModel
       .find()
-      .skip(1)
+      .skip()
       .limit(12)
       .populate("artist", "userName email");
 
@@ -62,7 +62,9 @@ exports.getMusic = async (req, res) => {
       message: "music fetched successfully",
       musics: music,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.getAlbums = async (req, res) => {
