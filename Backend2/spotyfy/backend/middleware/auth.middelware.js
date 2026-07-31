@@ -4,15 +4,15 @@ exports.authArtist = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) {
-      res.status(403).json({
-        message: "user unautherized",
+      return res.status(403).json({
+        message: "user unautherized 1",
       });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     if (decoded.role !== "artist") {
-      res.status(403).json({
+      return res.status(403).json({
         message: "you are not an artist",
       });
     }
@@ -21,23 +21,25 @@ exports.authArtist = async (req, res, next) => {
     next();
   } catch (error) {
     res.status(403).json({
-      message: "user unautherized",
+      message: "user unautherized 2",
     });
   }
 };
 exports.authUser = async (req, res, next) => {
   try {
     const token = req.cookies.token;
+    console.log(req.cookies);
+    console.log(req.cookies.token);
     if (!token) {
-      res.status(403).json({
-        message: "user unautherized",
+      return res.status(403).json({
+        message: "user unautherized 3",
       });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     if (decoded.role !== "user") {
-      res.status(403).json({
+      return res.status(403).json({
         message: "use are not a user",
       });
     }
@@ -46,7 +48,7 @@ exports.authUser = async (req, res, next) => {
     next();
   } catch (error) {
     res.status(403).json({
-      message: "user unautherized",
+      message: "user unautherized 4",
     });
   }
 };

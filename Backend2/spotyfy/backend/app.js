@@ -3,10 +3,12 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./db/db");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const userRouter = require("./routes/userRouter");
 const artistRouter = require("./routes/artistRouter");
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
